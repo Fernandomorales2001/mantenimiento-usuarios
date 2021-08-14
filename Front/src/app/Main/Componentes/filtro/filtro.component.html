@@ -1,0 +1,153 @@
+<div class="fixed-plugin">
+  <div class="dropdown show-dropdown open ">
+    <a href="#" data-toggle="dropdown" aria-expanded="true">
+      <i class="fa fa-cog fa-2x"> </i>
+    </a>
+    <ul (click)="$event.stopPropagation()" href="javascript:void(0)" class="dropdown-menu " x-placement="bottom-start"
+      style="position: absolute; top: 41px; left: -231px; will-change: top, left;">
+      <div class="row">
+        <div class="col-12">
+          <label for="exampleFormControlSelect1 text-white">Fecha:</label>
+          <input type="text" class="top" [(ngModel)]="selected" ngxDaterangepickerMd placeholder="Hoy"
+            [locale]="{applyLabel: 'aceptar', format: 'YYYY-MM-DD'}" class="form-control"
+            (ngModelChange)="cambiarFecha($event)" />
+        </div>
+
+      </div>
+
+      <div class="row" *ngIf="mostrarOrigenDatos">
+        <div class="col-12">
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Origen Datos:</label>
+            <select #sel_origenDatos class="form-control" id="exampleFormControlSelect1"
+              (change)="cambiarOrigenDatos(sel_origenDatos.value)"
+               
+              >
+             <ng-container
+             *ngFor="let dato of datosFiltro[2].tabla_datos; let idx = index"
+             >             
+              <option [value]="dato.id_tipo_origen_dato" 
+              [selected]="idx==0"
+               
+              >
+                {{dato.descripcion}}</option>
+             </ng-container>
+            </select>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row" *ngIf="mostrarSucursal">
+        <div class="col-12">
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">{{datosFiltro[0].descripcion_tipo}}</label>
+            <select #sel_sucursal 
+            (change)="changeSucursal(sel_sucursal.value)"
+            class="form-control" id="exampleFormControlSelect1">
+              <ng-container *ngFor="let dato of datosFiltro[0].tabla_datos; let vIndex = index">
+                <option [value]="dato.sucursal"
+                
+                >{{dato.descripcion}}
+                </option>
+
+              </ng-container>
+              
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="mostrarAsesores">
+        <div class="col-12">
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Asesores:</label>
+            <select #sel_asesores class="form-control" id="exampleFormControlSelect1">
+              <option value="0">VER TODOS</option>
+              <option [value]="dato.codigoempleado" *ngFor="let dato of datosFiltro[6].tabla_datos">
+                {{dato.nombre_asesor}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="mostrarTecnicos">
+        <div class="col-12">
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Tecnicos:</label>
+            <select #sel_tecnicos class="form-control" id="exampleFormControlSelect1">
+              <option value="0">VER TODOS</option>
+              <option [value]="dato.codigoempleado" *ngFor="let dato of datosFiltro[7].tabla_datos">
+                {{dato.nombre_tecnico}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="mostrarUnidades">
+        <div class="col-12">
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Valores en:</label>
+            <select #sel_unidades class="form-control" id="exampleFormControlSelect1">
+              <option [value]="dato.id_tipo_valor" *ngFor="let dato of datosFiltro[1].tabla_datos">{{dato.descripcion}}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="row" *ngIf="mostrarAplicabilidad">
+        <div class="col-12">
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Aplicabilidad:</label>
+            <select #sel_aplicabilidad class="form-control" id="exampleFormControlSelect1">
+              <option [value]="dato.id_tipo_aplicabilidad" *ngFor="let dato of datosFiltro[3].tabla_datos">
+                {{dato.descripcion}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="mostrarFuente">
+        <div class="col-12">
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Fuente:</label>
+            <select #sel_fuente class="form-control" id="exampleFormControlSelect1">
+              <option [value]="dato.id_tipo_fuente" *ngFor="let dato of datosFiltro[4].tabla_datos">{{dato.descripcion}}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="visualizarPor">
+        <div class="col-12">
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Visualizar por:</label>
+            <select #sel_visualizarPor class="form-control" id="exampleFormControlSelect1">
+              <option [value]="dato.id_tipo_visualizar_reclamo" *ngFor="let dato of datosFiltro[5].tabla_datos">
+                {{dato.descripcion}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row" *ngIf="mostrarEmpleados">
+        <div class="col-12">
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Empleado:</label>
+            <select #sel_empleado class="form-control" id="exampleFormControlSelect1">
+              <option value="0">VER TODOS</option>
+              <option [value]="dato.codigoempleado" *ngFor="let dato of datosFiltro[8].tabla_datos">
+                {{dato.nombre_empleado}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <br>
+
+      <button (click)="aplicarFiltro()" type="button" class="btn btn-primary">Consultar</button>
+      <br>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,1078 @@
+<!-- TALLERES -->
+<div class="row">
+    <div class="col-sm-12 col-lg-6 mb-3">
+        <div class="card">
+            <div class="card-header text-white bg-primary">
+                <span>
+                    LISTA DE CLIENTES
+                </span>
+                <i class="fa fa-refresh text-white tamanio-icono pointer float-right" aria-hidden="true"
+                    tooltip="Actualizar" (click)="obtenerlistaClientes()"></i>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-4">
+                        <label for="exampleFormControlSelect1" class="text-body">Cliente:</label>
+                        <div class="d-flex align-items-center">
+
+                            <input type="text" class="top" class="form-control" [(ngModel)]="textBuscar"
+                                placeholder="CLIENTE..." (keyup)="buscarTaller()" />
+
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <label for="exampleFormControlSelect1">Usuarios:</label>
+                        <select #sel_usuario (change)="cambiarUsuario(sel_usuario.value)" class="form-control"
+                            id="exampleFormControlSelect1">
+                            <option selected value="TODOS">VER TODOS</option>
+                            <option [value]="usuario.id_usuario" *ngFor="let usuario of usuarios">
+                                {{usuario.nombre}} </option>
+                        </select>
+                    </div>
+                    <div class="col-4">
+                        <label class="text-body">Fecha:</label>
+                        <div class="d-flex align-items-center">
+
+                            <input type="text" class="top" ngxDaterangepickerMd [(ngModel)]="fecha"
+                                placeholder="Ultimos 30 dias" [locale]="{applyLabel: 'aceptar', format: 'YYYY-MM-DD'}"
+                                class="form-control" (ngModelChange)="cambiarFecha($event)" />
+                            <span *ngIf="fecha_desde"> <i
+                                    class="fas fa-calendar-times text-danger ml-1 tamanio-icono pointer"
+                                    (click)="quitarFiltroFecha()"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-4">
+                        <label for="exampleFormControlSelect2">Ciudad:</label>
+                        <select #sel_ciudad (change)="cambiarCiudad(sel_ciudad.value)" class="form-control"
+                            id="exampleFormControlSelect2">
+                            <option selected value="0">VER TODAS</option>
+                            <option [value]="ciudad.id_ciudad" *ngFor="let ciudad of ciudadesClientes">
+                                {{ciudad.ciudad_nombre}} </option>
+                        </select>
+                    </div>
+
+                    <div class="col-4">
+                        <label for="exampleFormControlSelect3">Sucursal:</label>
+                        <select #sel_sucursal (change)="cambiarSucursal(sel_sucursal.value)" class="form-control"
+                            id="exampleFormControlSelect3">
+                            <option selected value="0">VER TODAS</option>
+                            <option [value]="sucursal.sucursal" *ngFor="let sucursal of sucursalesClientes">
+                                {{sucursal.descripcion}} </option>
+                        </select>
+                    </div>
+
+                    <div class="col-4">
+                        <label for="exampleFormControlSelect1">Aprob./Rechaz.:</label>
+                        <select [(ngModel)]="estado" (ngModelChange)="cambiarEstado()" class="form-control"
+                            id="exampleFormControlSelect1">
+                            <option selected value="TODOS">VER TODOS</option>
+                            <!-- <option value="sinEvaluar">SIN EVALUAR</option> -->
+                            <option value="1">SIN EVALUAR</option>
+                            <option value="2">APROBADOS</option>
+                            <option value="3">RECHAZADOS</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- <div class="row mt-3">
+                    <div class="col-12 text-center franja text-white pt-2">
+                        <h6>Lista de talleres</h6>
+                    </div>
+                </div> -->
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <div class="overflow-auto" style="max-height: 400px;">
+
+                            <!-- Inicio de la tabla -->
+                            <table class="table table-striped table-bordered table-hover table-responsive-lg table-sm"
+                                [mfData]="listaClientes" #mf="mfDataTable">
+                                <thead>
+                                    <tr class="bg-primary text-white">
+                                        <th style="width: 5%">#</th>
+                                        <th style="width: 55%">
+                                            <mfDefaultSorter by="nombretaller" #sortNombretaller>
+                                                CLIENTES
+                                                <span *ngIf="sortNombretaller.isSortedByMeAsc" class="cui-arrow-top"
+                                                    aria-hidden="true"><i class="fas fa-long-arrow-alt-up"></i></span>
+                                                <span *ngIf="sortNombretaller.isSortedByMeDesc" class="cui-arrow-bottom"
+                                                    aria-hidden="true"><i class="fas fa-long-arrow-alt-down"></i></span>
+                                            </mfDefaultSorter>
+                                        </th>
+                                        <th style="width: 20%">
+                                            <mfDefaultSorter by="nombre" #sortNombre>
+                                                USUARIO
+                                                <span *ngIf="sortNombre.isSortedByMeAsc" class="cui-arrow-top"
+                                                    aria-hidden="true"><i class="fas fa-long-arrow-alt-up"></i></span>
+                                                <span *ngIf="sortNombre.isSortedByMeDesc" class="cui-arrow-bottom"
+                                                    aria-hidden="true"><i class="fas fa-long-arrow-alt-down"></i></span>
+                                            </mfDefaultSorter>
+                                        </th>
+                                        <th style="width: 10%">
+                                            <mfDefaultSorter by="fecha_hora_creado" #sortFecha>
+                                                FECHA
+                                                <span *ngIf="sortFecha.isSortedByMeAsc" class="cui-arrow-top"
+                                                    aria-hidden="true"><i class="fas fa-long-arrow-alt-up"></i></span>
+                                                <span *ngIf="sortFecha.isSortedByMeDesc" class="cui-arrow-bottom"
+                                                    aria-hidden="true"><i class="fas fa-long-arrow-alt-down"></i></span>
+                                            </mfDefaultSorter>
+                                        </th>
+                                        <th style="width: 5%">ESTADO</th>
+                                        <th style="width: 10%" class="text-center">
+                                            <!-- ACCION -->
+                                            <span class="badge badge-danger" style="cursor: pointer;"
+                                                (click)="obtenerlistaClientes()"><i
+                                                    class="fas fa-eye-slash tamanio-icono"
+                                                    *ngIf="clienteSeleccionado"></i></span>
+                                            <!-- <i class="fas fa-eye-slash text-danger tamanio-icono " *ngIf="clienteSeleccionado"
+                                                 (click)="quitarSeleccion()"></i> -->
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let estadistica of listaClientes; let indice =index"
+                                        [ngClass]="{'bg-warning': estadistica.seleccionado}">
+                                        <td>{{indice +1}}</td>
+                                        <td>{{estadistica.nombre_legal_comercial}}</td>
+                                        <td>{{estadistica.nombre_usuario}}</td>
+                                        <td>{{estadistica.fecha_hora_creado | date:'dd/MM/yyyy'}}</td>
+                                        <td class="text-center">
+                                            <i class="fas fa-check-circle text-success tamanio-icono "
+                                                *ngIf="estadistica.estado_aprobado" tooltip="Aprobado"></i>
+                                            <i class="fas fa-ban text-danger tamanio-icono"
+                                                *ngIf="estadistica.estado_aprobado==false" [tooltip]="estadistica.comentario_rechazado"></i>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge badge-primary" style="cursor: pointer;"
+                                                (click)="verTaller(estadistica)"><i
+                                                    class="fas fa-eye tamanio-icono"></i></span>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                            <!-- Fin de la tabla -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- MAPA -->
+        <div class="col-12 mt-3">
+            <div class="card" *ngIf="verInformacionCliente">
+                <div class="card-header bg-primary text-white">
+                    UBICACION DEL CLIENTE
+                </div>
+                <div class="card-body">
+                    <div #mapataller class="mapa"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-lg-6 mb-3" *ngIf="!verInformacionCliente">
+        <div class="card">
+            <div class="card-header text-white bg-primary">
+                UBICACION DE LOS CLIENTES
+            </div>
+            <div class="card-body">
+                <div #map class="mapa" *ngIf="!verInformacionCliente"></div>
+            </div>
+            <div class="card-footer">
+                <i class="fas fa-map-marker-alt text-primary tamanio-icono"></i> <span> Sin evaluar </span>
+                <i class="fas fa-map-marker-alt text-success tamanio-icono ml-3"></i> <span> Aprobados </span>
+                <i class="fas fa-map-marker-alt text-danger tamanio-icono ml-3"></i> <span> Rechazados </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- INFORMACION DEL TALLER -->
+    <div class="col-sm-12 col-lg-6 mb-5" *ngIf="verInformacionCliente == true">
+        <div class="card">
+            <div class="card-header bg-primary">
+                <div class="text-center text-white">
+                    <div class="row">
+                        <div class="col-2">
+
+                        </div>
+                        <div class="col-8">
+                            <h6 class="text-center">{{clienteSeleccionado.nombre_legal_comercial}}</h6>
+                        </div>
+                        <div class="col-2">
+                            <i class="fas fa-check-circle text-success ml-2 tamanio-icono float-right"
+                                *ngIf="clienteSeleccionado.estado_aprobado"></i>
+                            <i class="fas fa-ban text-danger ml-2  tamanio-icono float-right" [tooltip]="clienteSeleccionado.comentario_rechazado"
+                                *ngIf="clienteSeleccionado.estado_aprobado==false"></i>
+                            <i class="fa fa-pencil-square-o text-white float-right tamanio-icono pointer"
+                                tooltip="Editar cliente" aria-hidden="true" (click)="modalEditarCliente.show()"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-10">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="d-flex">
+                                            <i class="fa fa-briefcase tamanio-icono text-primary mr-3"
+                                                aria-hidden="true"></i>
+                                            <div>
+                                                <span tooltip="Nombre Legal" *ngIf="clienteSeleccionado.nombre_legal">
+                                                    NL
+                                                </span>
+                                                <span *ngIf="clienteSeleccionado.nombre_legal">
+                                                    - {{clienteSeleccionado.nombre_legal}} <br>
+                                                </span>
+                                                <span tooltip="Nombre Comercial" *ngIf="clienteSeleccionado.nombre_comercial">
+                                                    NC
+                                                </span>
+                                                <span  *ngIf="clienteSeleccionado.nombre_comercial">
+                                                    - {{clienteSeleccionado.nombre_comercial  | uppercase}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+
+
+
+                                <div class="row"
+                                    *ngIf="clienteSeleccionado.direccion_calle_avenida || clienteSeleccionado.barrio_colonia_zona || clienteSeleccionado.direccion_referencia || clienteSeleccionado.ciudad || clienteSeleccionado.departamento">
+                                    <div class="col-12">
+                                        <div class="d-flex">
+                                            <!-- <div> -->
+                                            <i class="fas fa-map-marker-alt tamanio-icono text-primary mr-3"></i>
+                                            <!-- </div> -->
+                                            <div>
+                                                <div *ngIf="clienteSeleccionado.direccion_calle_avenida">
+                                                    <span> {{clienteSeleccionado.direccion_calle_avenida | uppercase}},</span> <br>
+                                                </div>
+                                                <div *ngIf="clienteSeleccionado.barrio_colonia_zona">
+                                                    <span>{{clienteSeleccionado.barrio_colonia_zona | uppercase}},</span> <br>
+                                                </div>
+                                                <div *ngIf="clienteSeleccionado.direccion_referencia">
+                                                    <span> {{clienteSeleccionado.direccion_referencia | uppercase}},</span> <br>
+                                                </div>
+                                                <div  *ngIf="clienteSeleccionado.ciudad">
+                                                    <span>{{clienteSeleccionado.ciudad | uppercase}},</span> <br>
+                                                </div>
+                                                <div *ngIf="clienteSeleccionado.departamento">
+                                                    <span>{{clienteSeleccionado.departamento| uppercase}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <!-- RTN -->
+                                <div class="row" *ngIf="clienteSeleccionado.rtn">
+                                    <div class="col-12">
+                                        <div class="d-flex">
+                                            <strong> <i
+                                                    class="fas fa-address-card tamanio-icono mr-2 text-primary"></i></strong>
+                                            <span>{{clienteSeleccionado.rtn}}</span> <br>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <!-- CORREO -->
+                                <div class="row" *ngIf="clienteSeleccionado.correo">
+                                    <div class="col-12">
+                                        <div class="d-flex">
+                                            <strong> <i class="fas fa-at tamanio-icono mr-2 text-primary"></i> </strong>
+                                            <span>{{clienteSeleccionado.correo}}</span> <br>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <!-- TELEFONOS -->
+                                <div class="row" *ngIf="clienteSeleccionado.telefonos.length>0">
+                                    <div class="col-12">
+                                        <div class="d-flex">
+                                            <div>
+                                                <strong> <i class="fas fa-phone tamanio-icono mr-2 text-primary"></i>
+                                                </strong>
+                                            </div>
+                                            <div>
+                                                <span *ngFor="let telefono of clienteSeleccionado.telefonos">(
+                                                    {{telefono.area}})
+                                                    {{telefono.telefono}}
+                                                    <br>
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <!-- TIENE CONTACTO EXPERTO -->
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="d-flex">
+                                            <div>
+                                                <i class="fa fa-check-circle tamanio-icono mr-2 text-success" *ngIf="clienteSeleccionado.id_contacto_experto"></i>
+                                                <i class="fa fa-ban tamanio-icono mr-2 text-danger" aria-hidden="true" *ngIf="!clienteSeleccionado.id_contacto_experto"></i>
+                                            </div>
+                                            <div>
+                                                <span [tooltip]="clienteSeleccionado.contacto_experto" *ngIf="clienteSeleccionado.id_contacto_experto">Tiene contacto principal</span>
+                                                <span *ngIf="!clienteSeleccionado.id_contacto_experto">No tiene contacto principal</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-2 d-flex justify-content-end">
+                                <div>
+                                    <img src="assets/img/galeria-de-imagenes.png" width="50px" data-toggle="modal"
+                                        data-target="#exampleModal" tooltip="Ver galeria de fotos"
+                                        class="img-fluid pointer" alt="galeria de fotos del cliente">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mt-3">
+                    <div class="card-body py-0">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item" *ngFor="let bahia of clienteSeleccionado.empleados">
+                                <span> <strong> {{bahia.descripcion}}: </strong></span>
+                                <span class="badge badge-info"> {{bahia.valor}} </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <br>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <h4> <span class="badge badge-primary p-2"> Horario semanal </span></h4>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">{{clienteSeleccionado.horario_semanal_inicio }}</li>
+                                    <li class="list-group-item">{{clienteSeleccionado.horario_semanal_fin }}</li>
+                                </ul>
+                            </div>
+                            <div class="col-4">
+                                <h4> <span class="badge badge-primary p-2"> Horario fin semana</span></h4>
+                                <!-- <h1 class="badge badge-primary p-1"> Horario fin semana</h1> <br> -->
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">{{clienteSeleccionado.horario_fin_semana_inicio }}</li>
+                                    <li class="list-group-item">{{clienteSeleccionado.horario_fin_semana_fin }}</li>
+                                </ul>
+                            </div>
+                            <div class="col-4">
+                                <h4> <span class="badge badge-primary p-2"> Dias laborales </span></h4>
+                                <!-- <h1 class="badge badge-primary p-1"> Dias laborales</h1> <br> -->
+                                <button type="button" class="btn btn-success btn-sm mt-2"
+                                    [ngClass]="{'bg-danger': !dia.abierto}"
+                                    *ngFor="let dia of clienteSeleccionado.horarios">{{dia.dia}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONTACTOS -->
+                <div class="row mt-2">
+
+                    <div class="col-xs-12 col-md-6" *ngFor="let mecanico of clienteSeleccionado.mecanicos">
+                        <div class="card mb-2">
+                            <div class="card-header bg-primary text-white py-1">
+                                <span>
+                                    CONTACTO
+                                </span>
+                                <img class="img-fluid float-right" *ngIf="mecanico.tipo_cliente==1"
+                                    src="assets/allas/img_exclusivo.png" tooltip="Exclusivo" alt="logo allas"
+                                    width="26px">
+                                <img class="img-fluid float-right" *ngIf="mecanico.tipo_cliente==2"
+                                    src="assets/allas/img_experto.png" tooltip="Experto" alt="logo allas" width="26px">
+                                <img class="img-fluid float-right" *ngIf="mecanico.tipo_cliente==0"
+                                    src="assets/allas/img_sin_clasificar.png" tooltip="Sin clasificar" alt="logo allas"
+                                    width="26px">
+                                <i class="fa fa-pencil-square-o text-white float-right tamanio-icono pointer mr-2 mt-1"
+                                    tooltip="Editar contacto" aria-hidden="true"
+                                    (click)="verificarFotoCedula(mecanico);modalEditarContacto.show()"></i>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-4 col-5 pr-1">
+                                        <img *ngIf="mecanico.url_imagen" [src]="mecanico.url_imagen"
+                                            class="img-thumbnail pointer"
+                                            (click)="verImgMecanico( tempImgMecanico,mecanico.url_imagen)">
+                                        <img *ngIf="!mecanico.url_imagen" src="assets/img/profile-user.png"
+                                            class="img-thumbnail">
+
+                                    </div>
+                                    <div class="col-md-9 col-sm-8 col-7">
+                                        <!-- NOMBRE -->
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h6 class="card-title float-left"><span><strong>{{mecanico.nombres}}
+                                                            {{mecanico.apellido1}} {{mecanico.apellido2}}</strong>
+                                                    </span>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                        <!-- IDENTIFICACION -->
+                                        <div class="row" *ngIf="mecanico.cedula">
+                                            <div class="col-12">
+                                                <div class="d-flex">
+                                                    <!-- <i class="fas fa-address-card text-primary tamanio-icono mr-2"></i> -->
+                                                    <div class="d-flex flex-wrap">
+                                                        <h6 class=" text-muted ">{{mecanico.cedula}}</h6>
+                                                        <div>
+                                                            <i class="fas fa-camera text-dark ml-2 tamanio-icono pointer float-rigth"
+                                                                tooltip="Editar y validar"
+                                                                (click)="verificarFotoCedula(mecanico);modalEditarContacto.show()"
+                                                                *ngIf="!mecanico.identificacion_escaneada"></i>
+                                                            <i class="fas fa-check-circle text-success ml-2 tamanio-icono float-rigth"
+                                                                *ngIf="mecanico.identificacion_validada"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <!-- FECHA DE NACIMIENTO -->
+                                <div class="row mt-2" *ngIf="mecanico.fecha_nacimiento">
+                                    <div class="col-12">
+                                        <div class="d-flex">
+                                            <i class="fas fa-calendar-times tamanio-icono text-primary mr-2"></i>
+                                            <div>
+                                                <span class="my-2">{{mecanico.fecha_nacimiento |
+                                                    date:'dd/MM/yyyy'}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- GENERO -->
+                                <div class="row mt-2" *ngIf="mecanico.nombre_genero">
+                                    <div class="col-12">
+                                        <div class="d-flex">
+                                            <i class="fas fa-venus-mars tamanio-icono text-primary mr-2"></i>
+                                            <div>
+                                                <span class="my-2">{{mecanico.nombre_genero}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- TELEFONOS -->
+                                <div class="row mt-2" *ngIf="mecanico.telefonos">
+                                    <div class="col-12">
+                                        <div class="d-flex">
+                                            <i class="fas fa-phone tamanio-icono mr-2 text-primary"></i>
+                                            <div>
+                                                <span *ngFor="let telefono of mecanico.telefonos">
+                                                    ({{telefono.area}}) {{telefono.telefono}} <br>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- CORREO ELECTRONICOS -->
+                                <div class="row mt-2" *ngIf="mecanico.correo_electronico">
+                                    <div class="col-12">
+                                        <div class="d-flex">
+                                            <i class="fas fa-at tamanio-icono text-primary mr-2"></i>
+                                            <div>
+                                                <span class="my-2">{{mecanico.correo_electronico}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- DIRECCION -->
+                                <div class="row mt-2" *ngIf="mecanico.ciudad || mecanico.departamento">
+                                    <div class="col-12">
+                                        <div class="d-flex">
+                                            <i class="fas fa-map-marker-alt tamanio-icono text-primary mr-2"></i>
+                                            <div>
+                                                <span class="my-2">{{mecanico.ciudad | titlecase}},
+                                                    {{mecanico.departamento | titlecase}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br>
+
+                                <!-- CONTACTO ENROLADO -->
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="d-flex">
+                                            <div>
+                                                <img src="assets/icons/fingerprint-scan_enrolado.png" alt="enrolado"
+                                                    width="20px" *ngIf="mecanico.enrolado">
+                                                <img src="assets/icons/fingerprint-scan_no_enrolado.png" alt="enrolado"
+                                                    width="20px" *ngIf="!mecanico.enrolado">
+                                            </div>
+                                            <div>
+                                                <span class="ml-2" *ngIf="mecanico.enrolado">Enrolado</span>
+                                                <span class="ml-2" *ngIf="!mecanico.enrolado">No enrolado</span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- ROL DEL CONTACTO -->
+                                <p *ngIf="mecanico.fecha_nacimiento" class="my-2"><strong> Rol: </strong>
+                                    <span class="badge badge-primary">{{mecanico.rol_nombre}}</span>
+                                </p>
+
+                                <!-- DESEA TARJETA -->
+                                <p class="my-2"><strong> Desea tarjeta: </strong>
+                                    <span *ngIf="mecanico.desea_tarjeta"
+                                        [ngClass]="{'badge badge-success': mecanico.desea_tarjeta}">Si</span>
+                                    <span *ngIf="!mecanico.desea_tarjeta"
+                                        [ngClass]="{'badge badge-danger': !mecanico.desea_tarjeta}">No</span>
+                                </p>
+
+                                <!-- TARJETA ENTREGADA -->
+                                <p class="my-2" *ngIf="mecanico.desea_tarjeta"><strong> Tarjeta entregada: </strong>
+                                    <span *ngIf="mecanico.tarjeta_entregada"
+                                        [ngClass]="{'badge badge-success': mecanico.tarjeta_entregada}">Si</span>
+                                    <span *ngIf="!mecanico.tarjeta_entregada"
+                                        [ngClass]="{'badge badge-danger': !mecanico.tarjeta_entregada}">No</span>
+                                </p>
+
+                                <!-- PERFILAR CONTACTO -->
+                                <div *ngIf="!mecanico.clienteid && mecanico.desea_tarjeta">
+                                    <div class="row">
+                                        <div class="col-12 d-flex">
+                                            <p class="my-2"> Perfilar como:</p>
+                                            <button type="button" class="btn" tooltip="Experto" container="body"
+                                                [delay]="200">
+                                                <img class="img-fluid pointer" src="assets/allas/img_experto.png"
+                                                    alt="logo allas" width="25px"
+                                                    (click)="tipo_contacto=2;guardarContactoEnCliente(mecanico)"></button>
+                                        </div>
+                                    </div>
+                                    <!-- <p class="my-2"> Perfilar contacto como:</p>
+                                    <div class="row">
+
+                                        <div class="col-6">
+
+                                            <div class="btn-group btn-group-sm" role="group" aria-label="Second group">
+                                                <button type="button" class="btn" tooltip="Experto" container="body"
+                                                    [delay]="200">
+                                                    <img class="img-fluid pointer"
+                                                        src="assets/allas/log_allas_rojo.jpeg" alt="logo allas"
+                                                        width="30px"
+                                                        (click)="tipo_contacto=2;guardarContactoEnCliente(mecanico)"></button>
+                                            </div>
+
+                                        </div>
+                                    </div> -->
+                                </div>
+                                <!-- <div class="col-sm-10" *ngIf="!mecanico.clienteid">
+                                        <select class="form-control form-control-sm">
+                                            <option value="0">Tipo cliente</option>
+                                            <option *ngFor="let tipo of tipoClientes" [value]="tipo.id">{{tipo.tipo}}</option>
+                                        </select>
+                                    </div> -->
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="row my-3">
+                    <div class="col-6">
+                        <!-- <button type="button" data-toggle="modal" data-target="#exampleModal"
+                            class="btn btn-primary btn-block">
+                            VER GALERIA IMAGENES </button> -->
+                        <!-- <button class="btn btn-primary">
+                            EDITAR CONTACTOS PADRES-HIJOS
+                        </button> -->
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex justify-content-end">
+
+                            <!-- ELIMINAR TALLER -->
+                            <i class="fa fa-trash text-secondary fa-2x pointer" aria-hidden="true"
+                                tooltip="Eliminar Cliente y sus contactos"
+                                (click)="eliminarTaller(clienteSeleccionado.id_taller)"></i>
+
+                            <button type="button" class="btn btn-danger ml-3"
+                                [disabled]="clienteSeleccionado.estado_aprobado==false"
+                                (click)="agregarComentario(tempComentarioRechazado)"> RECHAZAR
+                            </button>
+                            <button type="button" class="btn btn-success ml-2"
+                                [disabled]="clienteSeleccionado.estado_aprobado==true"
+                                (click)="aprobarTaller(clienteSeleccionado.id_taller,true)"> APROBAR
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- MAPA -->
+    <!-- <div class="col-12 mt-3 mb-5">
+        <div #mapataller class="mapa" *ngIf="verInformacionCliente"></div>
+    </div> -->
+</div>
+
+
+
+
+
+<!-- Modal IMAGEN-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-imagen" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">IMAGENES</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- <carousel [(activeSlide)]="activeSlideIndex" >
+                <slide *ngFor="let slide of imagenes; let index=index">
+                  <img [src]="slide.url_foto" alt="image slide" style="display: block; height: 400px;">
+                </slide>
+              </carousel> -->
+            <div class="modal-body bg-secondary">
+                <div id="carouselExampleIndicator" class="carousel slide mb-3" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item" *ngFor="let img of imagenes ; let id= index"
+                            [ngClass]="{'active': id==0}">
+                            <div class="d-flex justify-content-center text-center">
+                                <img class="img-fluid" [src]="img.url_foto" style="height: 500px;">
+                            </div>
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleIndicator" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleIndicator" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- COMENTARIO DE RECHAZADO -->
+<ng-template #tempComentarioRechazado>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">MOTIVO DE RECHAZO</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalComentario.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <textarea class="form-control text-uppercase" rows="3" placeholder="Escriba un comentario..."
+                [(ngModel)]="comentarioRechazo"></textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger " (click)="modalComentario.hide()"> CANCELAR </button>
+        <button type="button" class="btn btn-success ml-2"
+            (click)="rechazarTaller(clienteSeleccionado.id_taller,false)">
+            RECHAZAR </button>
+    </div>
+</ng-template>
+
+<!-- VER FOTO DEL MECANICO -->
+<ng-template #tempImgMecanico>
+    <div class="modal-header">
+        <!-- <h4 class="modal-title pull-left">Mecá</h4> -->
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalImgMecanico.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <img class="img-fluid" [src]="imgMecanico" alt="Imagen Mecanico" width="100%">
+    </div>
+</ng-template>
+
+<!-- COMENTARIO DE RECHAZADO -->
+<ng-template #tempContactoPadresHijos>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">CONTACTOS PADRE-HIJOS</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalComentario.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <textarea class="form-control text-uppercase" rows="3" placeholder="Escriba un comentario..."
+                [(ngModel)]="comentarioRechazo"></textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger " (click)="modalComentario.hide()"> CANCELAR </button>
+        <button type="button" class="btn btn-success ml-2"
+            (click)="rechazarTaller(clienteSeleccionado.id_taller,false)">
+            RECHAZAR </button>
+    </div>
+</ng-template>
+
+<!-- VER FOTO CEDULA DEL MECANICO -->
+<ng-template #tempFotoCedulaMecanico class="">
+    <div class="modal-header">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalFotoCedula.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <img class="img-fluid" [src]="imgMecanico" alt="Imagen Mecanico" width="100%">
+    </div>
+</ng-template>
+
+<!-- EDITAR Y VALIDAR CONTACTO -->
+<div bsModal #modalEditarContacto="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="dialog-sizes-name1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" *ngIf="contactoSeleccionado">
+            <div class="modal-header bg-primary text-white">
+                <h4 id="dialog-sizes-name1" class="modal-title pull-left">DATOS DEL CONTACTO</h4>
+                <button type="button" class="close pull-right" (click)="modalEditarContacto.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row" *ngIf="contactoSeleccionado.url_foto_documento_app">
+                    <div class="col-12">
+                        <div class="overflow-auto" style="max-height: 400px;">
+
+                            <img class="img-fluid pointer" [src]="contactoSeleccionado.url_foto_documento_app"
+                                alt="Imagen Foto Cedula del Mecanico" width="100%">
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    tooltip="Activar/Desactivar edición de contacto"
+                    class="custom-control custom-switch mr-3 pt-3 float-right">
+                  <input type="checkbox" class="custom-control-input" id="edicion"
+                      [(ngModel)]="contactoSeleccionado.identificacion_validada"
+                      (ngModelChange)="hayCambiosDatosMecanico=true">
+                  <label class="custom-control-label" for="edicion"></label>
+              </div>
+                <div class="row mt-4">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="inputAddress">Nombres: </label>
+                            <input type="text" class="form-control text-uppercase"
+                                [disabled]="contactoSeleccionado.identificacion_validada"
+                                [(ngModel)]="contactoSeleccionado.nombres" [value]="contactoSeleccionado.nombres"
+                                (input)="hayCambiosDatosMecanico=true">
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="inputAddress">Primer apellido: </label>
+                            <input type="text" class="form-control text-uppercase"
+                                [disabled]="contactoSeleccionado.identificacion_validada"
+                                [(ngModel)]="contactoSeleccionado.apellido1" (input)="hayCambiosDatosMecanico=true">
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="inputAddress">Segundo apellido: </label>
+                            <input type="text" class="form-control text-uppercase"
+                                [disabled]="contactoSeleccionado.identificacion_validada"
+                                [(ngModel)]="contactoSeleccionado.apellido2" (input)="hayCambiosDatosMecanico=true">
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="inputAddress">Identidad: </label>
+                            <input type="text" class="form-control text-uppercase"
+                                [disabled]="contactoSeleccionado.identificacion_validada"
+                                [(ngModel)]="contactoSeleccionado.cedula" (input)="hayCambiosDatosMecanico=true">
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="inputAddress">Fecha de nacimiento: </label>
+                            <input type="date" class="form-control" [(ngModel)]="contactoSeleccionado.fecha_nacimiento"
+                                [disabled]="contactoSeleccionado.identificacion_validada"
+                                (input)="hayCambiosDatosMecanico=true">
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="inputAddress">Género: </label>
+                            <select class="form-control" [(ngModel)]="contactoSeleccionado.genero"
+                                [disabled]="contactoSeleccionado.identificacion_validada"
+                                (input)="hayCambiosDatosMecanico=true">
+                                <option value="M">MASCULINO</option>
+                                <option value="F">FEMENINO</option>
+                            </select>
+                            <!-- <input type="text" class="form-control"  [(ngModel)]="contactoSeleccionado.genero"> -->
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="inputAddress">Rol: </label>
+                            <select class="form-control" [(ngModel)]="contactoSeleccionado.id_rol"
+                                (input)="hayCambiosDatosMecanico=true">
+                                <option *ngFor="let rol of contactoSeleccionado.roles" [value]="rol.id_rol">
+                                    {{rol.rol_nombre}}</option>
+                            </select>
+                            <!-- <input type="text" class="form-control"  [(ngModel)]="contactoSeleccionado.genero"> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="d-flex">
+                            <label for="inputAddress">Desea tarjeta: </label>
+                            <div class="custom-control custom-switch ml-2">
+                                <input type="checkbox" class="custom-control-input" id="hjhfj"
+                                    [(ngModel)]="contactoSeleccionado.desea_tarjeta"
+                                    (ngModelChange)="hayCambiosDatosMecanico=true">
+                                <label class="custom-control-label" for="hjhfj"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="d-flex justify-content-end">
+                            <button class="btn btn-primary" [disabled]="!hayCambiosDatosMecanico"
+                                (click)="hayCambiosDatosMecanico=false;actualizarMecanico()">GUARDAR CAMBIOS</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" (click)="modalEditarContacto.hide()">CERRAR</button>
+                <button class="btn btn-success" [disabled]="hayCambiosDatosMecanico"
+                    (click)="hayCambiosDatosMecanico=false;validarCedulaMecanico()"
+                    *ngIf="!contactoSeleccionado.identificacion_validada">VALIDAR</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- EDITAR CLIENTE -->
+<div bsModal #modalEditarCliente="bs-modal" (onHide)="cerrarEditarCliente()" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="dialog-sizes-name1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" *ngIf="clienteSeleccionado">
+            <div class="modal-header bg-primary text-white">
+                <h4 id="dialog-sizes-name1" class="modal-title pull-left">DATOS DEL CLIENTE</h4>
+                <button type="button" class="close pull-right" (click)="modalEditarCliente.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <small for="inputAddress">NOMBRE LEGAL: </small>
+                                                    <input type="text" class="form-control text-uppercase"
+                                                        [(ngModel)]="clienteSeleccionado.nombre_legal">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <small for="inputAddress">NOMBRE COMERCIAL: </small>
+                                                    <input type="text" class="form-control text-uppercase"
+                                                        [(ngModel)]="clienteSeleccionado.nombre_comercial">
+                                                </div>
+                                            </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                DIRECCION
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-6">
+                                      <div class="form-group">
+                                        <small for="inputAddress">PAIS: </small>
+                                          <select class="form-control not-validate" id="pais" name="pais" (change)="getDepartamentos(clienteSeleccionado.id_pais)" [(ngModel)]="clienteSeleccionado.id_pais">
+                                            <option *ngFor="let pais of paises " [value]="pais.id_pais">{{pais.nombre_pais}}</option>
+                                          </select>
+                                      </div>
+                                    </div>
+                                    <div class="col-6">
+                                      <div class="form-group">
+                                        <small for="inputAddress">ESTADO / DEPARTAMENTO: </small>
+                                          <select class="form-control not-validate" id="estado" name="estado" (change)="getMunicipio(clienteSeleccionado.id_estado)" [(ngModel)]="clienteSeleccionado.id_estado">
+                                            <option *ngFor="let departamento of departamentos " [value]="departamento.id_estado">{{departamento.estado_nombre}}</option>
+                                          </select>
+                                      </div>
+                                    </div>
+                                    <div class="col-12">
+                                      <div class="form-group">
+                                        <small for="inputAddress">CIUDAD / MUNICIPIO: </small>
+                                          <select class="form-control not-validate" id="departamento" name="departamento"  [(ngModel)]="clienteSeleccionado.id_ciudad">
+                                            <option *ngFor="let municipio of municipios " [value]="municipio.id_ciudad">{{municipio.ciudad_nombre}}</option>
+                                          </select>
+                                      </div>
+
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <small for="inputAddress">DIRECCION CALLE AVENIDA: </small>
+                                            <input type="text" class="form-control text-uppercase"
+                                            [(ngModel)]="clienteSeleccionado.direccion_calle_avenida">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <small for="inputAddress">BARRIO COLONIA ZONA: </small>
+                                            <input type="text" class="form-control text-uppercase"
+                                            [(ngModel)]="clienteSeleccionado.barrio_colonia_zona">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <small for="inputAddress">REFERENCIA: </small>
+                                            <input type="text" class="form-control text-uppercase"
+                                            [(ngModel)]="clienteSeleccionado.direccion_referencia">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <small for="inputAddress">SUCURSAL: </small>
+                                          <select class="form-control not-validate" id="tipoCliente" name="tipoCliente"  [(ngModel)]="clienteSeleccionado.sucursal_asignada">
+                                            <option *ngFor="let sucursal of sucursalesTiendas " [value]="sucursal.sucursal">{{sucursal.sucursal}} &nbsp; {{sucursal.descripcion}}</option>
+                                          </select>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <div class="card">
+
+                            <div class="card-header">
+                                ATRIBUTOS
+                            </div>
+                            <div class="card-body">
+                                <div *ngFor="let atributo of clienteSeleccionado.empleados">
+                                    <div class="form-inline mt-1">
+                                        <label for="inputAddress">{{atributo.descripcion}}: </label>
+                                        <div class="col-1">
+                                            <input type="number" class="form-control form-control-sm " style="width: 60px;"
+                                            [(ngModel)]="atributo.valor">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-12 mb-2">
+                                                <div class="card-header">
+                                                    HORARIO SEMANAL
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <small for="inputAddress">DESDE: </small>
+                                                    <input type="time" [(ngModel)]="clienteSeleccionado.horario_semanal_inicio" style="width: 120px;"
+                                                        class="form-control text-uppercase">
+                                                    <!-- <timepicker [(ngModel)]="clienteSeleccionado.horario_semanal_inicio"></timepicker> -->
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <small for="inputAddress">HASTA: </small>
+                                                    <input type="time" [(ngModel)]="clienteSeleccionado.horario_semanal_fin" style="width: 120px;"
+                                                        class="form-control text-uppercase">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-12 mb-2">
+                                                <div class="card-header">
+                                                    HORARIO FIN DE SEMANA
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <small for="inputAddress">DESDE: </small>
+                                                    <input type="time"
+                                                        [(ngModel)]="clienteSeleccionado.horario_fin_semana_inicio" style="width: 120px;"
+                                                        class="form-control text-uppercase">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <small for="inputAddress">HASTA: </small>
+                                                    <input type="time" [(ngModel)]="clienteSeleccionado.horario_fin_semana_fin" style="width: 120px;"
+                                                        class="form-control text-uppercase">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" (click)="modalEditarCliente.hide()">CERRAR</button>
+                <button class="btn btn-primary" (click)="editarCliente()">GUARDAR CAMBIOS</button>
+            </div>
+        </div>
+    </div>
+</div>

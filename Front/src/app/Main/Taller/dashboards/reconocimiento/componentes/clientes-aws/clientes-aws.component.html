@@ -1,0 +1,234 @@
+<div class="row">
+
+    <div class="col-12">
+
+      
+
+        <div class="card">
+            <div class="card-header text-white bg-primary">
+                LISTA DE CLIENTES TIPO TALLER O FLOTA CREADOS EN EL AWS
+            </div>
+            <div class="card-body">
+                
+                <div class="row">
+                    <div class="col-lg-3 col-sm-6 col-3 ">
+                        <label for="exampleFormControlSelect1" class="text-body">Cliente:</label>
+                        <div class="d-flex align-items-center">
+
+                            <input type="text" class="top" class="form-control" [(ngModel)]="textBuscar"
+                                placeholder="CLIENTE..." (keyup)="buscarTaller(false)" />
+
+                        </div>
+                    </div>
+
+                    <div class="col-lg-2 col-sm-6 col-2 ">
+                        <label for="exampleFormControlSelect1">TIPO CLIENTES:</label>
+                        <select #sel_usuario (change)="cambiarCliente(sel_usuario.value)" class="form-control"
+                            id="exampleFormControlSelect1">
+                            <option selected value="TODOS">VER TODOS</option>
+                            <option [value]="tipo.id" *ngFor="let tipo of tipoClientes">
+                                {{tipo.tipo}} </option>
+                        </select>
+                    </div>
+
+                    <div class="col-lg-2  col-sm-6 col-2">
+                        <label for="exampleFormControlSelect1">VISITADOS:</label>
+                        <select #sel_usuario2 (change)="enCampania(sel_usuario2.value)" class="form-control"
+                            id="exampleFormControlSelect1">
+                            <option selected value="TODOS">VER TODOS</option>
+                            <option [value]="tipo.id" *ngFor="let tipo of tipoCampania">
+                                {{tipo.tipo}} </option>
+                        </select>
+                    </div>
+
+                    <div class="col-lg-3 col-sm-6 col-3">
+                        <label for="exampleFormControlSelect1" class="text-body">Fecha:</label>
+                        <div class="d-flex align-items-center">
+
+                            <input type="text" class="top" ngxDaterangepickerMd [(ngModel)]="fecha"
+                                placeholder="Ultimos 30 dias" [locale]="{applyLabel: 'aceptar', format: 'YYYY-MM-DD'}"
+                                class="form-control" (ngModelChange)="cambiarFecha($event)" />
+                            <span *ngIf="fecha_desde"> <i
+                                    class="fas fa-calendar-times text-danger ml-1 tamanio-icono pointer"
+                                    (click)="quitarFiltroFecha()"></i></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-sm-6 col-2">
+                        <label for="bot">OPCIONES:</label>
+                        <p>
+                            <button #bot (click)="fcSeleccionTodos()" class="btn btn-primary">
+                                QUITAR 
+                        </button> &nbsp;
+                        <button #bot (click)="verUsuariosApp(null)" class="btn btn-primary">
+                            ENVIAR 
+                        </button>
+                    </p>
+                       
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <div class="overflow-auto">
+
+                            <!-- Inicio de la tabla -->
+                            <table class="table table-striped table-bordered table-hover table-responsive-lg table-sm"
+                                [mfData]="listaClientes" #mf="mfDataTable">
+                                <thead>
+                                    <tr class="bg-primary text-white">
+                                        <th style="width: 3%">#</th>
+                                        <th style="width: 15%">
+                                            <mfDefaultSorter by="nombre_comercial" #sortnombrecomercial>
+                                                CLIENTE
+                                                <span *ngIf="sortnombrecomercial.isSortedByMeAsc" class="cui-arrow-top"
+                                                    aria-hidden="true"><i class="fas fa-long-arrow-alt-up"></i></span>
+                                                <span *ngIf="sortnombrecomercial.isSortedByMeDesc"
+                                                    class="cui-arrow-bottom" aria-hidden="true"><i
+                                                        class="fas fa-long-arrow-alt-down"></i></span>
+                                            </mfDefaultSorter>
+                                        </th>
+                                        <!-- <th style="width: 15%">
+                                            <mfDefaultSorter by="nombre_legal" #sortnombrelegal>
+                                                NOMBRE LEGAL
+                                                <span *ngIf="sortnombrelegal.isSortedByMeAsc" class="cui-arrow-top"
+                                                    aria-hidden="true"><i class="fas fa-long-arrow-alt-up"></i></span>
+                                                <span *ngIf="sortnombrelegal.isSortedByMeDesc" class="cui-arrow-bottom"
+                                                    aria-hidden="true"><i class="fas fa-long-arrow-alt-down"></i></span>
+                                            </mfDefaultSorter>
+                                        </th> -->
+                                        <th style="width: 10%">
+                                            TIPO
+                                        </th>
+                                        <th style="width: 10%">
+                                            <mfDefaultSorter by="rtn" #sortrtn>
+                                                RTN
+                                                <span *ngIf="sortrtn.isSortedByMeAsc" class="cui-arrow-top"
+                                                    aria-hidden="true"><i class="fas fa-long-arrow-alt-up"></i></span>
+                                                <span *ngIf="sortrtn.isSortedByMeDesc" class="cui-arrow-bottom"
+                                                    aria-hidden="true"><i class="fas fa-long-arrow-alt-down"></i></span>
+                                            </mfDefaultSorter>
+                                        </th>
+                                        <th style="width: 10%">CONTACTO</th>
+                                        <th style="width: 10%"># CONT</th>
+
+                                        <!-- <th style="width: 10%">
+                                            TELEFONOS
+                                        </th> -->
+                                        <th style="width: 15%">
+                                            DIRECCION
+                                        </th>
+                                        <th style="width: 10%">
+                                            <mfDefaultSorter by="fecha_hora_creado" #sortFecha>
+                                                FECHA CREADO
+                                                <span *ngIf="sortFecha.isSortedByMeAsc" class="cui-arrow-top"
+                                                    aria-hidden="true"><i class="fas fa-long-arrow-alt-up"></i></span>
+                                                <span *ngIf="sortFecha.isSortedByMeDesc" class="cui-arrow-bottom"
+                                                    aria-hidden="true"><i class="fas fa-long-arrow-alt-down"></i></span>
+                                            </mfDefaultSorter>
+                                        </th>
+                                        <th style="width: 3%" class="text-center">
+                                           
+                                        </th>
+                                        <th style="width: 3%" class="text-center">
+
+                                        </th>
+                                        <th style="width: 3%" class="text-center">
+
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let cliente of mf.data; let indice =index"
+                                        [ngClass]="{'bg-warning': cliente.seleccionado}">
+                                        <td>{{indice +1}}</td>
+                                        <td>{{cliente.nombre}}</td>
+                                        <!-- <td>{{cliente.nombre_legal}}</td> -->
+                                        <td *ngIf="cliente.tipo==1" class="estiloTxt">CLIENTE</td>
+                                        <td *ngIf="cliente.tipo==2" class="estiloTxt">CONTACTO</td>
+                                        <td>{{cliente.rtn}}</td>
+                                        <td>{{cliente.nombre_contacto}}</td>
+                                        <td>{{cliente.cantidad_contactos}}</td>
+                                        <!-- <td>
+                                            <div *ngIf="cliente.telefonos">
+                                                <li style="list-style: none;"
+                                                    *ngFor="let telefono of cliente.telefonos">
+                                                    {{telefono.telefono}}
+                                                </li>
+                                            </div>
+                                        </td> -->
+                                        <!-- <td>
+                                            <div class="" *ngIf="cliente.correos">
+                                                <li style="list-style: none;" *ngFor="let correo of cliente.correos">
+                                                    {{correo.email}}
+                                                </li>
+                                            </div>
+                                        </td> -->
+                                        <td>
+                                            <div class="" *ngIf="cliente.direcciones">
+                                                <!-- <li style="list-style: none;"
+                                                    *ngFor="let direccion of cliente.direcciones">
+                                                    {{direccion.direccion}}
+                                                </li> -->
+                                                <li style="list-style: none;">
+                                                {{cliente.direcciones}}</li>
+                                            </div>
+                                        </td>
+                                        <td>{{cliente.fecha_hora_creado | date:'dd/MM/yyyy hh:mm a'}}</td>
+                                        <td>
+                                            <input type="checkbox" [checked]="cliente.seleccionado" (click)="agregarVisita(cliente,indice)" >
+                                        </td>
+                                        <td class="text-center ">
+                                            <!-- <span class="badge badge-primary" style="cursor: pointer;"> -->
+                                            <!-- <button class="btn btn-primary btn-sm btn-block" 
+                                                    tooltip="Generar orden de visita" 
+                                                    container="body" 
+                                                    [delay]="300"
+                                                    *ngIf="!cliente.esta_en_campania_actualizacion"
+                                                    (click)="generarActualizacionClienteCreadoAws(cliente)">
+                                                <i class="fa fa-phone-square fa-2x" aria-hidden="true"></i>
+                                            </button> -->
+                                            <button class="btn btn-primary btn-sm btn-block" 
+                                            tooltip="Generar orden de visita" 
+                                            container="body" 
+                                            [delay]="300"
+                                            *ngIf="!cliente.esta_en_campania_actualizacion"
+                                            (click)="verUsuariosApp(cliente)">
+                                                <i class="fa fa-phone-square fa-2x" aria-hidden="true"></i>
+                                            </button>
+                                            <!-- <button class="btn btn-success btn-sm btn-block" 
+                                                    tooltip="Orden de visita generada" 
+                                                    container="body" 
+                                                    [delay]="300">
+                                                </button> -->
+                                                <i class="fa fa-check-circle text-success tamanio-icono" 
+                                                    aria-hidden="true"
+                                                    tooltip="Orden de visita generada" 
+                                                    container="body"
+                                                    *ngIf="cliente.esta_en_campania_actualizacion" 
+                                                    [delay]="300">
+                                                </i>
+                                            <!-- </span> -->
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-primary btn-sm btn-block" 
+                                            tooltip="Ver datos" 
+                                            container="body" 
+                                            [delay]="300"
+                                            (click)="verInfoCliente(cliente)">
+                                             <i class="fa fa-eye fa-2x" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                            <!-- Fin de la tabla -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-modal-informacion-cc  #verInfocc></app-modal-informacion-cc>
+    <app-modal-usuarios-app (onCerrar)="buscarTaller($event)" #usuariosApp></app-modal-usuarios-app>
+</div>

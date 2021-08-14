@@ -1,0 +1,79 @@
+
+
+  <ngx-spinner [name]="'loading'"  ><p style="color: white" > Cargando... </p></ngx-spinner>
+<div class="container-fluid" *ngIf="!consultando">
+  
+<div class="row d-flex justify-content-center pagina">
+      <div class="mt-2 col-sm-12 col-md-8 col-lg-6 col-xl-6 carta  ">
+          <div class="titulo  ">
+              <h5>Facturas pendientes</h5>
+            </div>
+            <div class="row  ">
+              <div class="linea"></div>
+
+              <div class="col-3 m-2 contador text-center" *ngFor="let factura of pendientes.facturas">
+                      <span class="dot ">
+                          <p class="numero">{{factura.cantidad}}</p>                    
+                      </span>
+                  <div class="descripcion m-1">
+                      {{factura.descripcion}}
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="row d-flex justify-content-center"  >
+    <div class=" mt-2 col-sm-12 col-md-8 col-lg-6 col-xl-6 carta  ">
+        <div class="titulo  ">
+            <h5>Devoluciones y anulaciones</h5>
+          </div>
+          <div class="row d-flex justify-content-center">
+            <div class="line-white"></div> 
+
+            <div class="col-3 m-2 contador text-center" *ngFor="let devolucion of pendientes.devoluciones_anulaciones">
+                    <span class="dot ">
+                        <p class="numero">{{devolucion.cantidad}}</p>                    
+                    </span>
+                <div class="descripcion m-1">
+                    {{devolucion.descripcion}}
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="row d-flex justify-content-center" >
+    <div class=" mt-2 col-sm-12 col-md-8 col-lg-6 col-xl-6  carta  ">
+        
+            <div class="row mt-3 titulo text-center" >
+              <div class="col-10 ">
+                <h5>Transferencias pendientes de recibir</h5>
+              </div>
+              <div class="col-2 ">
+              <p class="circulo" >{{pendientes.transferencias_pendientes.cantidad}}</p>  
+              </div>
+            </div>
+      
+            <div class="row"  >
+              <div class="line-white"></div>
+      
+              <div class="col-12" *ngFor="let transferencia of pendientes.transferencias_pendientes.transferecias" >
+                <div class="cono mt-2 mb-2 ">
+                  <div class="row p-2 text-center">
+                  <div class="col-5 titulo-transferencia no-padding">{{transferencia.numerotransferencia}}</div>
+                    <div class="col-2 titulo-transferencia no-padding">C. {{transferencia.cantidad}}</div>
+                    <div class="col-4 titulo-transferencia no-padding">{{transferencia.fecha}}</div>
+                  </div>
+      
+                    
+                <div class="col-6 sucursal">Sucursal {{transferencia.origen}}</div>
+                  
+                </div>
+              </div>
+            </div>
+    </div>
+  </div> 
+
+</div>
+

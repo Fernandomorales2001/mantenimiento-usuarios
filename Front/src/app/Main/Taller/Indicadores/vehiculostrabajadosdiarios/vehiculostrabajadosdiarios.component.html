@@ -1,0 +1,91 @@
+<app-filtro 
+[mostrarSucursal] = true 
+[mostrarOrigenDatos]=true
+[mostrarMultiDato]=true
+[mostrarUnidades]=true 
+[ocultarOpcionSucursal]=true
+[ocultarOpcionPorcentaje]=true
+(getFiltroAplicado)="consultar($event); filtrosAplicados=$event" ></app-filtro>
+<div class="row">
+    <div class="col-12">
+          <span *ngIf="filtrosAplicados.fecha_desde"> <span style="font-weight: 700;">Desde:</span>  {{filtrosAplicados.fecha_desde}} </span> &nbsp;
+          <span *ngIf="filtrosAplicados.fecha_hasta"> <span style="font-weight: 700;">Hasta:</span>  {{filtrosAplicados.fecha_hasta}} </span> &nbsp;
+          <span *ngIf="filtrosAplicados.datos_seleccionado"> <span style="font-weight: 700;">Datos por:</span>  {{filtrosAplicados.datos_seleccionado}} </span> &nbsp;
+          <span *ngIf="filtrosAplicados.sucursal_seleccionado"> <span style="font-weight: 700;">Sucursal:</span>  {{filtrosAplicados.sucursal_seleccionado}} </span> &nbsp;
+          <span *ngIf="filtrosAplicados.valores_seleccionado"> <span style="font-weight: 700;">Valores:</span>  {{filtrosAplicados.valores_seleccionado}} </span> &nbsp;
+          <span *ngIf="filtrosAplicados.aplicabilidad_seleccionado"> <span style="font-weight: 700;">Aplicabilidad:</span>  {{filtrosAplicados.aplicabilidad_seleccionado}} </span> &nbsp;
+          <span *ngIf="filtrosAplicados.fuente_seleccionado"> <span style="font-weight: 700;">Fuente:</span>  {{filtrosAplicados.fuente_seleccionado}} </span> &nbsp;
+          <span *ngIf="filtrosAplicados.reclamos_seleccionado"> <span style="font-weight: 700;">Reclamo por:</span>  {{filtrosAplicados.reclamos_seleccionado}} </span> &nbsp;
+          <span *ngIf="filtrosAplicados.asesores_seleccionado"> <span style="font-weight: 700;">Asesores:</span>  {{filtrosAplicados.asesores_seleccionado}} </span> &nbsp;
+          <span *ngIf="filtrosAplicados.tecnicos_seleccionado"> <span style="font-weight: 700;">Tecnicos:</span>  {{filtrosAplicados.tecnicos_seleccionado}} </span> &nbsp;
+          <span *ngIf="filtrosAplicados.empleados_seleccionado"> <span style="font-weight: 700;">Empleados :</span>  {{filtrosAplicados.empleados_seleccionado}} </span> &nbsp;
+    </div>
+</div>
+
+<div class="row  mb-3 ml-1 mr-1">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-12 card-primary">
+                <div class="row">
+                    <div class="col-12 text-center franja text-white">
+                        <h6>Vehiculos trabajados diario</h6>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-12 tabla-principal">
+                        <table class="table table-sm table-striped" id="tablaTalleres" #tablaTalleres>
+                            <thead>
+                                <tr>
+                                    <th>Dia</th>
+                                    <th class="text-right">Cant. Vehiculos</th>
+                                    <th class="text-right">Cant. Vehiculos Empleados </th>
+                                    <th class="text-right">% Del dia</th> 
+                                    <th class="text-right">Vehiculos acumulados</th> 
+                                    <th class="text-right">% Del Total</th> 
+                                    <th class="text-right">% Acumulado</th> 
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of datosVehiculos[0].tabla_detalle_vehiculos">
+                                    <td>{{data.dia_semana}}</td>
+                                    <td class="text-right">{{data.cantidad_vehiculos_dia | number : '1.0-0' }}</td>
+                                    <td class="text-right">{{data.cantidad_vehiculos_empleado | number : '1.0-0' }}</td>
+                                    <td class="text-right">{{data.porcentaje_del_dia | number : '1.0-0'}}</td> 
+                                    <td class="text-right">{{data.vehiculos_acumulados  | number : '1.0-0'}}</td> 
+                                    <td class="text-right">{{data.porcentaje_del_total | number : '1.0-0'}}</td> 
+                                    <td class="text-right">{{data.vehiculos_porcentaje_acumulados | number : '1.0-0'}}</td> 
+                                </tr>
+                                <tr >
+                                    <td>Totales </td>
+                                    <td class="text-right">{{totales.cantidad_vehiculos_dia| number : '1.0-0'  }}</td>
+                                    <td class="text-right"> </td> 
+                                    <td class="text-right"> </td> 
+                                    <td class="text-right">{{totales.porcentaje_del_total | number : '1.0-0'}}</td> 
+                                    <td class="text-right"> </td> 
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xl-12 col-md-12 col-xs-12 text-center">
+        <p>Vehiculos trabajados diarios</p>
+        <div class="chart-wrapper">
+            <canvas baseChart 
+            [datasets]="barChartData"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [plugins]="barChartPlugins"
+            [legend]="barChartLegend"
+            [chartType]="barChartType">
+          </canvas>
+        </div>
+    </div>
+</div>

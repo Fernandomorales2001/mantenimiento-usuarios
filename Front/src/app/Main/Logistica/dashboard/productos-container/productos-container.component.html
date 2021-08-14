@@ -1,0 +1,35 @@
+<ngx-spinner [name]="'loading'"><p style="color: white" > Cargando... </p></ngx-spinner>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-3 col-md-5 col-xs-12">
+      <input type="text"
+      class="top"
+      ngxDaterangepickerMd
+      [(ngModel)]="select"
+      placeholder="Esta semana"
+      [locale]="{applyLabel: 'aceptar', format: 'YYYY-MM-DD'}"
+      class="form-control"
+      (ngModelChange)="ngModelChange($event)"
+      />
+    </div>
+  </div>
+  <hr>
+  <div class="row justify-content-center ">
+    <div class="col-lg-4 col-sm-12 col-md-6" *ngFor="let item of data.counters">
+      <app-productos-count [titulo]="item.titulo"
+                           [imagen]="item.imagen"
+                           [count]="item.count">
+      </app-productos-count>
+    </div>
+  </div>
+  <div class="row no-gutters mt-5 justify-content-start">
+    <div class="col-lg-6 col-sm-12 col-md-10">
+      <div class="row no-gutters">
+        <div class="col-lg-6 col-sm-12 col-md-6 zoom" *ngFor="let item of data.indicadores">
+          <app-productos-dashboard [ngClass]="{'zoom': es_firefox==false}" [data]="item"></app-productos-dashboard>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

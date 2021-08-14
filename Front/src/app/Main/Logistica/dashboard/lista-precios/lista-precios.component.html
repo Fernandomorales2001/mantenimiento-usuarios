@@ -1,0 +1,83 @@
+<ngx-spinner [name]="'loading'"><p style="color: white" > Cargando... </p></ngx-spinner>
+
+<div class="container-fluid">
+    <div class="row mt-3">
+        <div class="col-lg-4 col-sm-12 col-md-8">
+
+                <input type="text"
+                class="top"
+                placeholder="Fecha"
+                ngxDaterangepickerMd
+                [(ngModel)]="selected"
+                placeholder="Esta semana"
+                [locale]="{applyLabel: 'aceptar', format: 'YYYY-MM-DD'}"
+                class="form-control"
+                (ngModelChange)="selectFecha($event)"
+                />
+
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-lg-4 col-sm-12 col-md-8">
+            <app-productos-count  [titulo]="precios.count.titulo"
+                                  [imagen]="precios.count.imagen"
+                                  [count]="precios.count.count" >
+            </app-productos-count>
+        </div>
+    </div>
+
+    <div class="row mt-5 ">
+
+        <div class="col-lg-4 col-sm-12 col-md-6">
+            <h5>Lista de precios</h5>
+            <div class="divTabla table-responsive">
+              <table class="table table-sm table-striped  ">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Proveedor</th>
+                      <th scope="col">Cant.</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of precios.lista_counter">
+                      <th class="text-left" scope="row">{{item.codigoproveedor}}</th>
+                      <td class="text-left">{{item.nombre}}</td>
+                      <td  >
+                      <span class="badge badge-pill badge-primary">{{item.count}}</span>
+                      </td>
+                    </tr>
+                  </tbody>
+              </table>
+            </div>
+        </div>
+
+
+        <div class="col-lg-6 col-sm-12 col-md-6">
+            <h5>Lista de precios-productos</h5>
+            <div class="divTabla table-responsive">
+              <table class="table table-sm table-striped ">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Proveedor</th>
+                      <th scope="col">Lista</th>
+                      <th scope="col">Cant.</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of precios.lista">
+                      <th class="text-left" scope="row">{{item.codigoproveedor}}</th>
+                      <td class="text-left">{{item.nombre}}</td>
+                      <td>{{item.fecha_posteo}}</td>
+                      <td>
+                          <span class="badge badge-pill badge-primary">{{item.count}}</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+.navbar{
+  position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: .5rem 1rem;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 9;
+}
+.pointer{
+  cursor: pointer;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 998;
+  background: #000;
+  opacity: 0.5;
+  display: none;
+}
+
+
+.codigo{
+  float: left;
+  position: fixed;
+  color: white;
+  margin-top: 15px;
+  margin-left: 9px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.dropdown{
+  width: 100px;
+}
+
+
+.sucursal{
+  padding-right: 255px;
+}
+.btn-primary{
+  background: #003F87 !important;
+  color: white !important;
+  border: none;
+}

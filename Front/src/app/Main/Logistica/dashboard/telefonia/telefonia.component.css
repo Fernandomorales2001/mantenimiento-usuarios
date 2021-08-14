@@ -1,0 +1,33 @@
+.table{
+    color: #48525E !important;
+    text-align: center;
+
+    width: 100% !important;
+    height: 150px;
+}
+
+h5{
+    color: #48525E;
+}
+.badge-primary{
+    background-color: #0A53A5 !important;
+    font-weight: normal;
+    font-size: 14px;
+}
+
+.divTabla{
+    max-height: 400px !important;
+    min-height: 400px !important;
+    height: 400px !important;
+    box-shadow: 1px 1px 5px 0px  #b1b2b4;
+}
+
+.example-viewport {
+    height: 200px;
+    width: 200px;
+    border: 1px solid black;
+  }
+  
+  .example-item {
+    height: 50px;
+  }

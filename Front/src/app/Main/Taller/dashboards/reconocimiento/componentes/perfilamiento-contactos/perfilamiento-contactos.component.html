@@ -1,0 +1,210 @@
+<div class="row">
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header text-white bg-primary">
+                PERFILAMIENTO DE CONTACTOS
+            </div>
+            <div class="card-body">
+
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <!-- <label class="sr-only" for="inlineFormInputGroup">Username</label> -->
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                            </div>
+                            <!-- <input [(ngModel)]="contacto_eleccionado"
+                                    typeaheadOptionField="nombre"
+                                    [typeahead]="contactos" 
+                                    [typeaheadAsync]="true"
+                                    class="form-control" 
+                                    id="inlineFormInputGroup" 
+                                    placeholder="Buscar por nombre o identificación ..."> -->
+
+                            <input  class="form-control"
+                                    [(ngModel)]="termino_busqueda"
+                                    (input)="buscarContactos()"
+                                    id="inlineFormInputGroup" 
+                                    placeholder="Buscar por nombre o identificación ...">
+  
+                        </div>
+                        <!-- <input [(ngModel)]="selected"
+                        [typeahead]="states"
+                        class="form-control"> -->
+                    </div>
+                </div>
+                <div class="row" *ngIf="contactos">
+                    <div class="col-12">
+                        <div class="list-group">
+                            <div class="list-group-item list-group-item-action" *ngFor="let contacto of contactos">
+                                <div (click)="buscarContacto(contacto.id_contacto)">
+                                    <span>{{contacto.nombre_identificacion}}</span>
+                                    <!-- <span>{{contacto.nombre}}</span> <br>
+                                    <span>{{contacto.identificacion}}</span> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- TARJETA DEL CONTACTO -->
+<div class="row justify-content-center mt-2" *ngIf="hayContactoSeleccionado">
+
+    <div class="col-xs-12 col-md-4">
+        <div class="card mb-2">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-4 pr-1">
+                        <img *ngIf="contacto.url_imagen" [src]="contacto.url_imagen"
+                            class="img-thumbnail pointer">
+                        <img *ngIf="!contacto.url_imagen" src="assets/img/profile-user.png"
+                            class="img-thumbnail">
+
+                    </div>
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-10 px-0">
+                                <h6 class="card-title float-left"><span><strong>{{contacto.nombres}}
+                                            {{contacto.apellido1}} {{contacto.apellido2}}</strong>
+                                    </span>
+                                </h6>
+                            </div>
+                            <div class="col-2 px-0">
+                                <img class="img-fluid float-right"
+                                    *ngIf="contacto.tarjetaid>0 && contacto.tipo_cliente==1"
+                                    src="assets/allas/log_allas_azul.jpeg" alt="logo allas"
+                                    width="30px">
+                                <img class="img-fluid float-right"
+                                    *ngIf="contacto.tarjetaid>0 && contacto.tipo_cliente==2"
+                                    src="assets/allas/log_allas_rojo.jpeg" alt="logo allas"
+                                    width="30px">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-7 px-0">
+                                <h6 class=" text-muted">{{contacto.cedula}}</h6>
+                            </div>
+                            <div class="col-5 px-0">
+                                <span class="float-right" >
+                                    <i class="fas fa-address-card text-primary tamanio-icono"></i> 
+                                    <i class="fas fa-camera text-dark ml-2 tamanio-icono" *ngIf="!contacto.identificacion_escaneada"></i>
+                                    <i class="fas fa-check-circle text-success ml-2 tamanio-icono"*ngIf="contacto.identificacion_validada"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p *ngIf="contacto.fecha_nacimiento" class="my-2"> <strong><i
+                            class="fas fa-calendar-times tamanio-icono text-primary mr-2"></i></strong>
+                    {{contacto.fecha_nacimiento |
+                    date:'dd/MM/yyyy'}}</p>
+                <p *ngIf="contacto.nombre_genero" class="my-2"> <strong><i
+                            class="fas fa-venus-mars tamanio-icono text-primary mr-2"></i></strong>
+                    {{contacto.nombre_genero}}</p>
+
+                <!-- TELEFONOS -->
+                <div class="row" *ngIf="contacto.telefonos">
+                    <div class="col-12">
+                        <div class="d-flex">
+                            <div>
+                                <strong> <i class="fas fa-phone tamanio-icono mr-2 text-primary"></i>
+                                </strong>
+                            </div>
+                            <div>
+                                <span *ngFor="let telefono of contacto.telefonos">( {{telefono.area}})
+                                    {{telefono.telefono}}
+                                    <br>
+                                    <!-- <span *ngIf="mecanico.telefonos.length>1">/</span> -->
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <p *ngIf="contacto.correo_electronico" class="my-2"><strong><i
+                            class="fas fa-at tamanio-icono text-primary mr-2"></i></strong>
+                    {{contacto.correo_electronico}}</p>
+                <p *ngIf="contacto.ciudad || contacto.departamento" class="my-2"> <strong><i
+                            class="fas fa-map-marker-alt tamanio-icono text-primary mr-2"></i></strong>
+                    {{contacto.ciudad | titlecase}},
+                    {{contacto.departamento | titlecase}}
+                </p>
+
+                <br>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="d-flex">
+                            <div>
+                                <img src="assets/icons/fingerprint-scan_enrolado.png" alt="enrolado" width="20px" *ngIf="contacto.enrolado">
+                                <img src="assets/icons/fingerprint-scan_no_enrolado.png" alt="enrolado" width="20px" *ngIf="!contacto.enrolado">
+                            </div>
+                            <div>
+                                <span class="ml-2" *ngIf="contacto.enrolado">Enrolado</span>
+                                <span class="ml-2" *ngIf="!contacto.enrolado">No enrolado</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div >
+                    <p class="my-2"><strong> Desea tarjeta: </strong>
+                        <span *ngIf="contacto.desea_tarjeta"
+                            [ngClass]="{'badge badge-success': contacto.desea_tarjeta}">Si</span>
+                        <span *ngIf="!contacto.desea_tarjeta"
+                            [ngClass]="{'badge badge-danger': !contacto.desea_tarjeta}">No</span>
+                    </p>
+                    <p class="my-2" *ngIf="contacto.desea_tarjeta"><strong> Tarjeta entregada: </strong>
+                        <span *ngIf="contacto.tarjeta_entregada"
+                            [ngClass]="{'badge badge-success': contacto.tarjeta_entregada}">Si</span>
+                        <span *ngIf="!contacto.tarjeta_entregada"
+                            [ngClass]="{'badge badge-danger': !contacto.tarjeta_entregada}">No</span>
+                    </p>
+                </div>
+
+                <div>
+                <!-- <div *ngIf="!contacto.clienteid && contacto.desea_tarjeta"> -->
+                    <p class="my-2"> Perfil del contacto:</p>
+                    <div class="row">
+                        <div class="col-12">
+                            <ul class="list-group list-group-horizontal">
+                                <li class="list-group-item list-group-item-action pointer p-1 d-flex justify-content-center" 
+                                    [ngClass]="{'active': contacto.tipo_cliente==0}"
+                                    tooltip="Sin clasificar"
+                                    (click)="perfilarContacto(0)">
+                                        <img class="img-fluid m-0"
+                                            src="assets/allas/img_sin_clasificar.png" alt="logo allas"
+                                            width="40px">
+                                </li>
+                                <li class="list-group-item list-group-item-action pointer p-1 d-flex justify-content-center" 
+                                    [ngClass]="{'active': contacto.tipo_cliente==1}"
+                                    tooltip="Exclusivo"
+                                    (click)="perfilarContacto(1)">
+                                        <img class="img-fluid m-0"
+                                            src="assets/allas/img_exclusivo.png" alt="logo allas"
+                                            width="40px">
+                                </li>
+                                <li class="list-group-item list-group-item-action pointer p-1 d-flex justify-content-center" 
+                                    [ngClass]="{'active': contacto.tipo_cliente==2}"
+                                    tooltip="Experto"
+                                    (click)="perfilarContacto(2)">
+                                        <img class="img-fluid m-0"
+                                            src="assets/allas/img_experto.png" alt="logo allas"
+                                            width="40px">
+                                </li>
+                              </ul>
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

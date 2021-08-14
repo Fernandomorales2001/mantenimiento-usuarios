@@ -1,0 +1,40 @@
+<div class="container-login100 background-bg">
+	<div class="wrap-login100">
+		<form class="login100-form">
+			<img src="assets/allas/logo.png" class="rounded mx-auto d-block logo-top padding" alt="logo">
+			<div class="padding">
+				<input class="form-control text-center radius"
+
+							 type="text"
+							 name="usuario"
+							 [(ngModel)]="loginUser.user"
+							 (keydown)="loginKeyDown($event, 'user')"
+							 placeholder="Usuario">
+			</div>
+			<div class="padding">
+				<input class="form-control text-center radius"
+				#password
+							 type="password"
+							 name="password"
+							 [(ngModel)]="loginUser.pass"
+							 (keydown)="loginKeyDown($event, 'pass')"
+							 placeholder="Contraseña">
+			</div>
+			<div class="errorLogin text-center bg-white" *ngIf="loginInvalido">
+				<h6 class="text-danger"><i class="fas fa-exclamation-triangle"></i> Usuario o contraseña incorrectos </h6>
+			</div>
+			<div class="padding">
+				<button type="button"
+				[disabled]="iniciandoSesion"
+						(click)="login()"
+						class="btn btn-danger btn-lg btn-block radius">
+				<span class="spinner-border spinner-border-sm"
+				*ngIf="iniciandoSesion"
+				 role="status" aria-hidden="true"></span>
+
+				Ingresar
+			</button>
+			</div>
+		</form>
+	</div>
+</div>

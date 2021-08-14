@@ -1,0 +1,28 @@
+<div class="contenedor">
+
+    <div class="row row-empty  " [ngClass]="{'responsive': estaExpandido==false}">
+        <div
+        (click)="cambiarTab()"
+        [routerLink]="['guardado']" routerLinkActive="tab-active"  
+        class="col-4 tabs ">Guardados <b>{{contadores.guardado}}</b> </div
+        >
+        
+        <div 
+        (click)="cambiarTab()"
+        [routerLink]="[ 'solicitudes' ]" routerLinkActive="tab-active"
+        class="col-4 tabs ">Solicitudes <b>{{contadores.solicitudes}}</b> 
+    </div>
+    
+        <div
+        (click)="cambiarTab()"
+        [routerLink]="[ 'pendientes' ]" routerLinkActive="tab-active"
+        class="col-4 tabs ">Pendientes <b>{{contadores.pendientes}}</b> </div>
+    </div>
+</div>
+ 
+<div class="container">
+    <br>
+    <br> 
+        <router-outlet></router-outlet>
+</div>
+ 

@@ -1,0 +1,60 @@
+.tabs{
+    background-color: #EF1F1F;
+    color: white;
+    text-align: center;
+    border-right: white 1px solid;
+}
+
+.circulo{
+    float: right;
+    background-color: white;
+    border-radius: 25px;
+    padding: 1px;
+    text-align: center;
+    color: #EF1F1F;
+    width: 25px;
+    height: 25px;
+    margin-top: 1px;
+    /* En el futuro comentar el font size */
+    font-size: 8px;
+}
+
+/* .row{
+    height: 30px !important;
+    margin-left: 0px;
+    margin-right: 0px;
+} */
+
+.card{
+    background-color: #003F87;
+    color: white;
+    border-radius: 10px;
+    margin-top: 5px;
+}
+
+.banda{
+    background-color: #0A53A5;
+    color: white;
+    text-align: center;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    margin-top: 5px;
+}
+
+.tabla{
+    background-color: white;
+    color: #575454;
+    border-radius: 10px;
+    width: 100%;
+    margin-top: 5px;
+    text-align: center;
+}
+
+.tabla th{
+    border-top: none;
+}
+
+.texto{
+    color: white;
+    text-align: center;
+}

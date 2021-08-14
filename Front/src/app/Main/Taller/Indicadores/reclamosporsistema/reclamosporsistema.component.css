@@ -1,0 +1,225 @@
+.lineas{
+    border: 1px solid #cacaca;
+    margin: 5px;
+    box-shadow: 1px 1px 5px 0px  #aeafb5;
+}
+
+.card-primary{
+    background-color: #003F87;
+    border-radius: 8px;
+   
+}
+
+.text-white{
+    color: white !important;
+}
+
+label{
+    color: white !important;
+}
+
+.franja{
+    background: #0A53A5;
+}
+
+.table{
+    background: white;
+}
+
+.btn-primary{
+    background: #003F87 !important;
+    color: white !important;
+    border: none;
+}
+
+ 
+
+.talleres{
+font-size:11px;
+font-weight: bold;
+}
+
+.btn-sm {
+    padding: .3rem .3rem !important;
+    font-size: 0.575rem !important;
+    line-height: 1.5 !important;
+    border-radius: .2rem !important;
+}
+.no-padding{
+    padding: 1px !important;
+    margin: 0px !important;
+}
+ 
+
+.separador-top{
+    border-top: #aeafb5 1px solid;
+    margin-top: 1px;
+    width: 100%;
+    margin-left: 0px;
+}
+.separador-bottom{
+    border-bottom: #aeafb5 1px solid;
+}
+
+
+.fila{
+    background: #f7f7f7;
+}
+
+.text-strong{
+    font-size:11px;
+font-weight: bold;
+}
+
+.contenido-taller{
+    /* height: 250px; */
+    max-height: 300px;
+    overflow-y: scroll;
+}
+
+.tabla-principal{
+    max-height: 500px;
+    overflow-y: scroll;
+    border-bottom: #003F87 2px solid;
+}
+
+.mapa{
+    width:100%;
+    height:400px;
+}
+
+.inactivo{
+    font-weight: bold;
+    color: #003F87 !important;
+    background: white !important;
+    border: none !important;
+}
+.sombra{
+    box-shadow: 1px 1px 5px 0px  #aeafb5;
+}
+
+.font-primary{
+    color: #003F87 !important;
+    font-weight: 900;
+    font-size: 12px;
+}
+
+.cerrado{
+    font-weight: bold;
+    color: #003F87 !important;
+    background: white !important;
+    border: #003F87 1px solid !important;
+}
+.imagen{
+    width: 45px !important;
+    height: 45px !important;
+
+}
+.imagen-mecanico{
+    transform: scale(2);
+
+}
+
+
+.image-box {
+    position: relative;
+    margin: auto;
+    overflow: hidden;
+}
+
+.no-margin{
+    margin: 0;
+    padding: 0;
+}
+
+
+
+.modal-dialog {
+    min-width: 50% !important;
+  }
+  .modal-imagen{
+    width: auto !important;
+  }
+
+  .hover:hover{
+      cursor: pointer;
+  }
+  .btn-delete{
+      background: #DC3545 !important;
+      color: white;
+  }
+
+.VerTalleres{
+    background: #003F87 !important;
+    color: white;
+    font-size: 17px;
+    vertical-align: middle;
+    position: fixed;
+    bottom: 0px;
+    right: 15px;
+    text-align: center !important;
+}
+.chat-popup {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    background: white;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+    width: 25%;
+    margin-bottom:24px ;
+  }
+  
+  /* Add styles to the form container */
+  .form-container { 
+    padding: 10px;
+    background-color: white;
+    max-height: 285px;
+    overflow-y: scroll;
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+}
+ 
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 10px;
+}
+ 
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+  
+ 
+
+  .listado{
+    color: #003F87;
+    width: 100%;
+    padding: 10px; 
+    border: none; 
+    resize: none;
+    min-height: 25px;
+  }
+
+  @media only screen and (max-width: 600px) {
+    .chat-popup{
+        width: 80% !important;
+    }
+  }
+  @media only screen and (min-width: 600px) {
+    .chat-popup{
+        width: 33.3333% !important;
+    }
+  }
+
+  @media only screen and (min-width: 991px) {
+    .chat-popup{
+        width: 25% !important;
+    }
+  }
+
+  .total{
+    font-weight: bold;
+}

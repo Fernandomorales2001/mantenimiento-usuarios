@@ -1,0 +1,50 @@
+<!-- Just an image -->
+<nav class="navbar navbar-light bg-light" *ngIf="!es_login">
+  <a class="navbar-brand pointer">
+    <!-- <img src="../../../assets/img/" width="30" height="30" alt=""> -->
+    <i class="material-icons" (click)="toggleSidebar()" *ngIf="showMenu">menu_open</i>
+    <i class="material-icons" (click)="toggleSidebar()" *ngIf="!showMenu">menu</i>
+
+    <span *ngIf="mostrarCiudades">
+      <div class="d-inline ml-1 form-group">
+         Ciudad
+          <select
+          #selCiudad 
+          >
+            <option value="0">Ver Todas</option>
+            <option [value]="ciudad.ciudadid" *ngFor="let ciudad of ciudades">{{ciudad.ciudad}}</option>
+             
+          </select>
+   
+      </div>
+      <div class="d-inline ml-1">
+        <button 
+        (click)="ciudadSeleccionada(selCiudad.value)"
+        type="button" class="btn btn-primary btn-sm" >Consultar
+      </button>
+      </div>
+    </span>
+
+    
+  </a>
+ 
+  
+
+  <a class="navbar-brand pointer" [ngClass]="{'sucursal': estaExpandido}" *ngIf="mostrarSucursal">
+    <div class="btn-group dropleft" >
+      <div  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <p class="codigo"><strong>{{sucursalActiva}}</strong></p>
+      <img src="assets/svg/sucursal.svg" width="37" height="37" alt="">
+    </div>
+
+      <div class="dropdown-menu">
+        <a class="dropdown-item" *ngFor="let sucursal of sucursales" (click)="setSucursal(sucursal)">{{sucursal.descripcion}}</a>
+      </div>
+    </div>
+
+    <!-- <div class="sucursal">
+      <p class="codigo"><strong>06</strong></p>
+      <img src="../../../assets/svg/sucursal.svg" width="40" height="40" alt="">
+    </div> -->
+  </a>
+</nav>

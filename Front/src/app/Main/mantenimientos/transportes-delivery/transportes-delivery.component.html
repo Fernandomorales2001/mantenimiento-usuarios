@@ -1,0 +1,415 @@
+<div class="container-fluid">
+
+    <div class="row">
+
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header text-white bg-primary">
+                    PROVEEDORES DE SERVICIO DE ENTREGA
+                </div>
+                <div class="card-body">
+
+                    <div class="row justify-content-center mt-3">
+                        <div class="col-sm-12 col-md-12 col-lg-10">
+                            <div class="overflow-auto">
+
+                                <!-- Inicio de la tabla -->
+                                <table
+                                    class="table table-striped table-bordered table-hover table-responsive-lg table-sm"
+                                    [mfData]="listaProveedoresTransporte" #mf="mfDataTable">
+                                    <thead>
+                                        <tr class="bg-primary text-white">
+                                            <th style="width: 20%">
+                                                <mfDefaultSorter by="nombre_comercial" #sortnombrecomercial>
+                                                    PROVEEDOR
+                                                    <span *ngIf="sortnombrecomercial.isSortedByMeAsc"
+                                                        class="cui-arrow-top" aria-hidden="true"><i
+                                                            class="fas fa-long-arrow-alt-up"></i></span>
+                                                    <span *ngIf="sortnombrecomercial.isSortedByMeDesc"
+                                                        class="cui-arrow-bottom" aria-hidden="true"><i
+                                                            class="fas fa-long-arrow-alt-down"></i></span>
+                                                </mfDefaultSorter>
+                                            </th>
+                                            <th class="text-center" style="width: 15%">
+                                                ACTIVO
+                                            </th>
+                                            <th class="text-center" style="width: 15%">
+                                                INTERURBANO
+                                            </th>
+                                            <th class="text-center" style="width: 15%">
+                                                DOMICILIO
+                                            </th>
+                                            <th class="text-center" style="width: 15%">
+                                                PERMITE PAGO CLIENTE
+                                            </th>
+                                            <th class="text-center" style="width: 15%">
+                                                TARIFA PLANA
+                                            </th>
+                                            <th class="text-center" style="width: 15%">
+                                                TARIFAS / CIUDADES
+                                            </th>
+                                            <th class="text-center" style="width: 20%">
+                                                DISPONIBLE EN SUCURSALES
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let proveedor of mf.data; let indice =index">
+
+                                            <td>
+                                                {{proveedor.nombre_proveedor}}
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                        [id]="'activo' + proveedor.id_proveedor"
+                                                        [(ngModel)]="proveedor.activo"
+                                                        (ngModelChange)="actualizarProveedor(proveedor)">
+                                                    <label class="custom-control-label"
+                                                        [for]="'activo' + proveedor.id_proveedor"></label>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                        [id]="'interurbano' + proveedor.id_proveedor"
+                                                        [(ngModel)]="proveedor.tiene_transporte_interurbano"
+                                                        (ngModelChange)="proveedor.tiene_servicio_adomicilio=!proveedor.tiene_servicio_adomicilio;actualizarProveedor(proveedor)">
+                                                    <label class="custom-control-label"
+                                                        [for]="'interurbano' + proveedor.id_proveedor"></label>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                        [id]="'domicilio' + proveedor.id_proveedor"
+                                                        [(ngModel)]="proveedor.tiene_servicio_adomicilio"
+                                                        (ngModelChange)="proveedor.tiene_transporte_interurbano=!proveedor.tiene_transporte_interurbano;actualizarProveedor(proveedor)">
+                                                    <label class="custom-control-label"
+                                                        [for]="'domicilio' + proveedor.id_proveedor"></label>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                        [id]="'cliente' + proveedor.id_proveedor"
+                                                        [(ngModel)]="proveedor.acepta_pago_cliente"
+                                                        (ngModelChange)="actualizarProveedor(proveedor)">
+                                                    <label class="custom-control-label"
+                                                        [for]="'cliente' + proveedor.id_proveedor"></label>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="col-auto"
+                                                    (click)="editarTarifaPlana(tempTarifaPlana,proveedor)">
+                                                    <label class="sr-only" for="inlineFormInputGroup">L.0.00</label>
+                                                    <div class="input-group mb-2">
+                                                        <!-- <label type="text" 
+                                                                class="form-control tamanio-tarifa-plana"
+                                                                id="inlineFormInputGroup" 
+                                                                placeholder="L.0.00"
+                                                                >
+                                                            {{proveedor.costo_tarifa_plana | currency : 'L.'}}</label> -->
+                                                        <input class="form-control form-control-sm text-center"
+                                                            type="text"
+                                                            [value]="proveedor.costo_tarifa_plana | currency : 'L.'"
+                                                            disabled>
+                                                        <!-- (keypress)="guardarTarifaPlanaEnter(proveedor,tarifa_plana.value, $event)" -->
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text pointer">
+                                                                <i class="fa fa-pencil-square-o  text-primary"
+                                                                    aria-hidden="true"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- <input  class="form-control form-control-sm text-center" 
+                                                        type="text" 
+                                                        placeholder="Escriba una cantidad..."
+                                                        [value]="proveedor.costo_tarifa_plana | currency : 'L.'"
+                                                        #tarifa_plana
+                                                        (keypress)="cambiarTarifaPlana(proveedor,tarifa_plana.value, $event)"> -->
+                                            </td>
+                                            <!-- <td class="text-center">
+                                                <i class="fa fa-pencil-square-o tamanio-icono pointer text-primary" aria-hidden="true"></i>
+                                                {{proveedor.costo_tarifa_plana | currency : 'L.'}}
+                                            </td> -->
+                                            <!-- <td>{{proveedor.tarifa_plana}}</td> -->
+                                            <td class="text-center">
+                                                <i class="fa fa-pencil-square-o tamanio-icono pointer text-primary"
+                                                    (click)="editarTarifasCiudades(tempTarifasCiudades,proveedor)"
+                                                    aria-hidden="true"></i>
+                                            </td>
+                                            <td class="text-center">
+                                                <i class="fa fa-pencil-square-o tamanio-icono pointer text-primary"
+                                                    aria-hidden="true"
+                                                    (click)="editarSucursalesDisponibles(tempDisponibleSucursales,proveedor)"></i>
+                                                <span *ngFor="let sucursal of proveedor.sucursales_disponibles">
+                                                    <span *ngIf="sucursal.activo">
+                                                        {{sucursal.sucursal}}
+                                                    </span>
+                                                </span>
+                                            </td>
+                                            <!-- <td>
+                                                <div *ngIf="proveedor.disponible_en_sucursales">
+                                                    <li style="list-style: none;"
+                                                        *ngFor="let sucursal of proveedor.disponible_en_sucursales">
+                                                        {{sucursal.sucursal}}
+                                                    </li>
+                                                </div>
+                                            </td> -->
+
+                                        </tr>
+
+                                    </tbody>
+                                    <tfoot>
+                                        <div class="d-flex">
+                                            <i class="fa fa-plus-circle text-success m-1 float-rigth pointer"
+                                                style="font-size: 2em;" aria-hidden="true" (click)="nuevoProveedor(tempNuevoProveedor)"></i>
+                                        </div>
+                                    </tfoot>
+                                </table>
+                                <!-- Fin de la tabla -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- -----------------------------MODALS ------------------------------------>
+
+<!-- TARIFA PLANA -->
+<ng-template #tempTarifaPlana>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">TARIFA PLANA - {{proveedorSeleccionado.nombre_proveedor}}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalTarifaPlana.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <input class="form-control text-uppercase" type="number" #tarifa_plana
+                [value]="proveedorSeleccionado.costo_tarifa_plana" placeholder="Escriba una tarifa..." (keyup.enter)="guardarTarifaPlana(proveedorSeleccionado, tarifa_plana.value)" />
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger " (click)="modalTarifaPlana.hide()"> CANCELAR </button>
+        <button type="button" class="btn btn-success ml-2"
+            (click)="guardarTarifaPlana(proveedorSeleccionado, tarifa_plana.value)">GUARDAR </button>
+    </div>
+</ng-template>
+
+<!-- DISPONIBLE EN SUCURSALES -->
+<ng-template #tempDisponibleSucursales>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">DISPONIBLE EN SUCURSALES - {{proveedorSeleccionado.nombre_proveedor}}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalSucursalesDisponibles.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered table-responsive-lg table-sm">
+            <thead>
+                <tr class="bg-primary text-white">
+                    <th class="text-center" style="width: 15%">
+                        SUCURSAL
+                    </th>
+                    <th class="text-center" style="width: 15%">
+                        ACTIVO
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let sucursal of proveedorSeleccionado.sucursales_disponibles; let indice =index">
+
+                    <td>
+                        {{sucursal.sucursal}}
+                    </td>
+                    <td class="text-center">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" [id]="sucursal.sucursal"
+                                [(ngModel)]="sucursal.activo"
+                                (ngModelChange)="actualizarProveedor(proveedorSeleccionado,'SUCURSALES')">
+                            <label class="custom-control-label" [for]="sucursal.sucursal"></label>
+                        </div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger " (click)="modalSucursalesDisponibles.hide()"> CERRAR </button>
+        <!-- <button type="button" class="btn btn-success ml-2"
+            (click)="modalSucursalesDisponibles.hide();guardarSucursalesDisponibles()">GUARDAR </button> -->
+        <!-- <button type="button" class="btn btn-success ml-2" >OK </button> -->
+    </div>
+</ng-template>
+
+
+<!-- TARIFAS POR CIUDADES -->
+<ng-template #tempTarifasCiudades>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">TARIFA POR CIUDAD - {{proveedorSeleccionado.nombre_proveedor}}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalTarifaCiudades.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered table-responsive-lg table-sm">
+            <thead>
+                <tr class="bg-primary text-white">
+                    <th class="text-center" style="width: 40%">
+                        ORIGEN
+                    </th>
+                    <th class="text-center" style="width: 40%">
+                        DESTINO
+                    </th>
+                    <th class="text-center" style="width: 20%">
+                        COSTO
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let ciudad of proveedorSeleccionado.tarifas_ciudades; let indice =index">
+
+                    <td>
+                        <p>{{ciudad.ciudad_origen_nombre}}</p>
+                        <!-- <select class="custom-select">
+                        <option [value]="ciudad.id_ciudad_origen" selected>{{ciudad.ciudad_origen_nombre}}</option>
+                    </select> -->
+                    </td>
+                    <td>
+                        <p>{{ciudad.ciudad_destino_nombre}}</p>
+                        <!-- <select class="custom-select">
+                        <option [value]="ciudad.id_ciudad_destino" selected>{{ciudad.ciudad_destino_nombre}}</option>
+                    </select> -->
+                    </td>
+                    <td class="text-center">
+                        <input class="form-control text-center" type="text" [(ngModel)]="ciudad.costo"
+                            (ngModelChange)="verificarCostoValido(ciudad)"
+                            (change)="actualizarProveedor(proveedorSeleccionado,'CIUDADES')" />
+                    </td>
+                </tr>
+
+            </tbody>
+            <tfoot>
+                <div class="d-flex">
+                    <i class="fa fa-plus-circle text-success m-1 float-rigth pointer" style="font-size: 2em;"
+                        aria-hidden="true" (click)="nuevaTarifa()"></i>
+                </div>
+            </tfoot>
+        </table>
+    </div>
+    <div class="modal-footer" *ngIf="!esNuevaTarifa">
+        <button type="button" class="btn btn-danger " (click)="modalTarifaCiudades.hide()"> CERRAR </button>
+    </div>
+
+
+    <div *ngIf="esNuevaTarifa">
+        <div class="modal-body">
+            <form>
+                <div class="row">
+
+                    <div class="col">
+                        <label for="validationDefault01">ORIGEN</label>
+                        <select class="custom-select" #ciudadOrigen>
+                            <option value="0" selected>CIUDAD...</option>
+                            <option [value]="ciudad.id_ciudad"
+                                *ngFor="let ciudad of proveedorSeleccionado.ciudades_origen"
+                                (click)="nuevaTarifaPorCiudad.ciudad_origen_nombre=ciudad.ciudad_nombre">
+                                {{ciudad.ciudad_nombre}}</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <div class="col-12 mb-1">
+                                <label for="validationDefault02">DESTINO</label>
+                                <select class="custom-select" #paisDestino
+                                    (change)="getEstadosByPais(paisDestino.value)">
+                                    <!-- <option [value]="1" selected></option> -->
+                                    <option [value]="pais.id_pais"
+                                        *ngFor="let pais of proveedorSeleccionado.paises_destino">{{pais.pais_nombre}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-12 mb-1">
+                                <select class="custom-select" #estadoDestino
+                                    (change)="getCiudadesByEstado(estadoDestino.value)">
+                                    <option value="0" selected>ESTADO...</option>
+                                    <option [value]="estado.id_estado" *ngFor="let estado of estados">
+                                        {{estado.estado_nombre}}</option>
+                                </select>
+                            </div>
+                            <div class="col-12 mb-1">
+                                <select class="custom-select" #ciudadDestino>
+                                    <!-- <option value="0" selected>CIUDAD...</option> -->
+                                    <option [value]="ciudad.id_ciudad" *ngFor="let ciudad of ciudades">
+                                        {{ciudad.ciudad_nombre}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <label for="validationDefault02">COSTO</label>
+                        <input class="form-control text-center" type="number" #costo />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger " (click)="resetFormulario()"> CANCELAR </button>
+                    <button type="submit" class="btn btn-success ml-2"
+                        (click)="guardarNuevaTarifa(ciudadOrigen.value, ciudadDestino.value, costo.value)">GUARDAR
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</ng-template>
+
+
+<!-- NUEVO PROVEEDOR -->
+<ng-template #tempNuevoProveedor >
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">NUEVO PROVEEDOR DE TRANSPORTE</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalNuevoProveedor.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+
+                <div class="col">
+                    <label for="validationDefault01">NOMBRE PROVEEDOR</label>
+                    <input class="form-control text-uppercase" type="text" #nombre_proveedor/>
+                </div>
+                <div class="col text-center">
+                    <label for="validationDefault02">INTERURBANO</label>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch1" [(ngModel)]="tiene_transporte_interurbano">
+                        <label class="custom-control-label" for="customSwitch1"></label>
+                      </div>
+                </div>
+                <div class="col text-center">
+                    <label for="validationDefault02">DOMICILIO</label>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch2" [(ngModel)]="tiene_servicio_adomicilio">
+                        <label class="custom-control-label" for="customSwitch2"></label>
+                      </div>
+                </div>
+                <div class="col-3">
+                    <label for="validationDefault02">TARIFA PLANA</label>
+                    <input class="form-control text-center" type="number" #tarifa_plana/>
+                </div>
+            </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger " (click)="modalNuevoProveedor.hide()"> CANCELAR </button>
+        <button type="button" class="btn btn-success ml-2" (click)="guardarNuevoProveedor(nombre_proveedor.value,tarifa_plana.value)">GUARDAR </button>
+    </div>
+</ng-template>

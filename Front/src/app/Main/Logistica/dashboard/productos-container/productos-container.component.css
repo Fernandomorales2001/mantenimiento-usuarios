@@ -1,0 +1,15 @@
+.zoom{
+
+}
+
+.zoom:hover{
+
+    /* animation: zoomIn 1s; */
+    transform: scale(1.1, 1.1);
+    border: 1px solid #d0cdcd;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px 0px  #aeafb5;
+    background-color: #fff;
+    background: #fff;
+    z-index: 9999;
+}

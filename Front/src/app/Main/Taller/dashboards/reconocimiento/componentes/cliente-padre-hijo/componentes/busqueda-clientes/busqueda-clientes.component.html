@@ -1,0 +1,55 @@
+
+
+
+    <div class="row mt-3">
+      <div class="col-12">
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <i class="fas fa-search"></i>
+                </div>
+            </div>
+              <!----------BUSQUEDA CLIENTE PADRE ---------------------->
+              <ng-container *ngIf="PadreHijo">
+                <input  class="form-control text-uppercase"
+                        id="inlineFormInputGroup"
+                        placeholder="Buscar por nombre o RTN ..."
+                        [(ngModel)]="termino"
+                        (input)="teclaPresionada()"
+                        list="padre"
+                        name="browser"
+                        id="browser"
+                        (change)="mostrarSeleccionado($event)"
+                        >
+                <datalist id="padre" >
+                    <option *ngFor="let sugerencia of sugerenciasClientes" [value]="sugerencia.nombre_completo"> {{sugerencia.identificacion}}
+                </datalist>
+              </ng-container>
+
+            <!----------BUSQUEDA CLIENTE HIJO  ------------------------>
+            <ng-container *ngIf="!PadreHijo">
+              <input  class="form-control text-uppercase"
+                      id="inlineFormInputGroup"
+                      placeholder="Buscar por nombre o RTN ..."
+                      [(ngModel)]="termino"
+                      (input)="teclaPresionada()"
+                      list="hijo"
+                      name="browser"
+                      id="browser"
+                      (change)="mostrarSeleccionado($event)"
+                      >
+              <datalist id="hijo" >
+                  <option *ngFor="let sugerencia of sugerenciasClientes" [value]="sugerencia.nombre_completo">{{sugerencia.identificacion}}
+              </datalist>
+            </ng-container>
+
+          </div>
+      </div>
+    </div>
+
+
+
+
+
+
+

@@ -1,0 +1,77 @@
+<app-filtro 
+[mostrarSucursal] = true 
+[mostrarAsesores]= true
+[mostrarUnidades]= true
+[ocultarOpcionLempiras]=true
+(getFiltroAplicado)="consultar($event); filtrosAplicados=$event" ></app-filtro>
+<div class="row">
+    <div class="col-12">
+          <span *ngIf="filtrosAplicados.fecha_desde"> <span style="font-weight: 700;">Desde:</span>  {{filtrosAplicados.fecha_desde}} </span> &nbsp;
+          <span *ngIf="filtrosAplicados.fecha_hasta"> <span style="font-weight: 700;">Hasta:</span>  {{filtrosAplicados.fecha_hasta}} </span> &nbsp;
+          <span *ngIf="filtrosAplicados.datos_seleccionado"> <span style="font-weight: 700;">Datos por:</span>  {{filtrosAplicados.datos_seleccionado}} </span> &nbsp;
+          <span *ngIf="filtrosAplicados.sucursal_seleccionado"> <span style="font-weight: 700;">Sucursal:</span>  {{filtrosAplicados.sucursal_seleccionado}} </span> &nbsp;
+          <span *ngIf="filtrosAplicados.valores_seleccionado"> <span style="font-weight: 700;">Valores:</span>  {{filtrosAplicados.valores_seleccionado}} </span> &nbsp;
+          <span *ngIf="filtrosAplicados.aplicabilidad_seleccionado"> <span style="font-weight: 700;">Aplicabilidad:</span>  {{filtrosAplicados.aplicabilidad_seleccionado}} </span> &nbsp;
+          <span *ngIf="filtrosAplicados.fuente_seleccionado"> <span style="font-weight: 700;">Fuente:</span>  {{filtrosAplicados.fuente_seleccionado}} </span> &nbsp;
+          <span *ngIf="filtrosAplicados.reclamos_seleccionado"> <span style="font-weight: 700;">Reclamo por:</span>  {{filtrosAplicados.reclamos_seleccionado}} </span> &nbsp;
+          <span *ngIf="filtrosAplicados.asesores_seleccionado"> <span style="font-weight: 700;">Asesores:</span>  {{filtrosAplicados.asesores_seleccionado}} </span> &nbsp;
+          <span *ngIf="filtrosAplicados.tecnicos_seleccionado"> <span style="font-weight: 700;">Tecnicos:</span>  {{filtrosAplicados.tecnicos_seleccionado}} </span> &nbsp;
+          <span *ngIf="filtrosAplicados.empleados_seleccionado"> <span style="font-weight: 700;">Empleados :</span>  {{filtrosAplicados.empleados_seleccionado}} </span> &nbsp;
+    </div>
+</div>
+
+<div class="row  mb-3 ml-1 mr-1">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-12 card-primary">
+                <div class="row">
+                    <div class="col-12 text-center franja text-white">
+                        <h6>Reproceso asesor</h6>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-12 tabla-principal">
+                        <table class="table table-sm table-striped" id="tablaTalleres" #tablaTalleres>
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th class="text-right">Cant. Vehiculos</th>
+                                    <th class="text-right">Cotizado</th> 
+                                    <th class="text-right">Negociado</th> 
+                                    <th class="text-right">Facturacion</th>  
+                                    <th class="text-right">Conseguir repuesto</th>  
+                                    <th class="text-right">Total</th>  
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of datosReproceso">
+                                    <td>{{data.nombre_empleado}}</td>
+                                    <td class="text-right">{{data.cantidad_vehiculo}}</td>
+                                    <td class="text-right">{{data.cotizacion}}</td> 
+                                    <td class="text-right">{{data.negociacion  }}</td> 
+                                    <td class="text-right">{{data.facturacion}}</td> 
+                                    <td class="text-right">{{data.conseguir_repuesto}}</td> 
+                                    <td class="text-right">{{data.total}}</td> 
+                                </tr>
+                                <tr >
+                                    <td class="total">Totales </td>
+                                    <td class="total text-right"> </td>
+                                    <td class="total text-right">{{totales.cotizacion  }}</td>
+                                    <td class="total text-right">{{totales.negociacion  }}</td>
+                                    <td class="total text-right">{{totales.facturacion  }}</td>
+                                    <td class="total text-right">{{totales.conseguir_repuesto  }}</td>
+                                    <td class="total text-right">{{totales.total  }}</td>
+                                    
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+ 

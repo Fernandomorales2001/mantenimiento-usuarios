@@ -1,0 +1,163 @@
+.carta{
+    background-color: #003F87;
+    color: white;
+    border-radius: 10px;
+}
+
+.titulo{
+    color: white;
+    text-align: center;
+}
+.linea{
+    border-bottom: 1px solid white;
+    width: 100%;
+}
+ 
+.descripcion{
+
+    color: #003F87;
+    background-color: white;
+    font-size: 9px;
+    font-weight: bold;
+    padding: 1px;
+    width: 100%;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.dot {
+    background-color: white;
+    color: #003F87;
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+    font-weight: bold;
+    padding: 1px;
+    margin: auto;
+  }
+
+  .numero{
+      margin-top: 16%;
+  }
+
+  .contador{
+    flex-direction: column;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
+
+  .row-empty{
+      margin-left: 0px !important;
+      margin-right: 0px !important;
+  }
+
+.sucursal{
+    font-weight: bold;
+    font-size: 12px;
+    color: #575454;
+}
+
+
+
+
+
+
+
+  .tabs{
+    background-color: #EF1F1F;
+    color: white;
+    text-align: center;
+    border-right: white 1px solid;
+}
+
+.circulo{
+    float: right;
+    /* background-color: white; */
+    border-radius: 25px;
+    /* padding: 1px; */
+    text-align: center;
+    color: #ffffff;
+    /* width: 25px; */
+    /* height: 25px; */
+    margin-top: 1px;
+    font-weight: 700;
+    /* En el futuro comentar el font size */
+    font-size: 1rem;
+}
+
+
+
+.card{
+    background-color: #003F87;
+    color: white;
+    border-radius: 10px;
+}
+
+.banda{
+    background-color: #0A53A5;
+    color: white;
+    text-align: center;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    margin-top: 5px;
+}
+
+.tabla{
+    background-color: white;
+    color: #575454;
+    text-align: center;
+    font-size: 12px !important;
+    
+}
+
+.tabla th{
+    border-top: none;
+}
+
+.texto{
+    color: white;
+    text-align: center;
+}
+
+.line-white{
+    border-bottom: 1px white solid;
+    width: 100%;
+}
+.line-gray{
+    border-bottom: 1px #cacaca solid;
+    width: 90%;
+}
+
+.cono{
+    background-color: white;
+    color: #575454;
+    border-radius: 10px;
+    padding: 1px;
+}
+.titulo-transferencia{
+    font-weight: bold;
+    font-size: 10px;
+}
+/* .descripcion{
+    font-size: 12px;
+    text-align: center;
+} */
+
+.urgente{
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    font-size: 12px;
+    background-color: #EF1F1F;
+    text-align: center;
+    color: white;
+
+}
+
+ .pagina{
+     /* margin-top: 500px; */
+ }
+ .no-padding{
+     padding: 1px;
+ }

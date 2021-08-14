@@ -1,0 +1,28 @@
+.bg-primary{
+    background-color: #003F87 !important;
+}
+
+.text-primary{
+    color: #003F87 !important;
+}
+
+.pointer{
+    cursor: pointer;
+}
+.tamanio-icono{
+    font-size: 1.3em;
+}
+.pading{
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+}
+.borde{
+    border:1px solid #000;
+}
+
+.estiloTxt{
+    font-weight: bold;
+}
+.btnTop{
+    margin-top: 500px;
+}

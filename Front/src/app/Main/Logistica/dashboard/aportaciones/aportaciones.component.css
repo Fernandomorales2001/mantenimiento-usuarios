@@ -1,0 +1,70 @@
+.aportaciones{
+  border: 1px solid #d0cdcd;
+  border-radius: 10px;
+  box-shadow: 1px 1px 5px 0px  #aeafb5;
+  margin: 20px
+}
+
+.horizontal-line{
+  border-top: 1px solid #d0cdcd;
+}
+
+.vertical-line{
+  border-right: 1px solid #d0cdcd;
+}
+
+.margin-row{
+
+}
+
+.titulo{
+  font-size: 1.3rem;
+  color: #48525E;
+}
+
+.label-contadores-globales{
+  font-size: 1.3rem;
+  color: #48525E;
+}
+
+.contadores-globales-entrantes{
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #0077FF;
+}
+
+.contadores-globales-trabajados{
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #43C454;
+}
+
+.label-viejo{
+  font-size: 1.0rem;
+  color: #FB9678;
+  font-weight: 401;
+}
+
+.label-nuevo{
+  font-size: 1.0rem;
+  color: #F7B924;
+  font-weight: 401;
+}
+
+.label-contadores-trabajadas{
+  font-size: 1.2rem;
+  color: #48525E;
+  font-weight: 400;
+}
+
+.label-count-trabajadas{
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #43C454;
+}
+
+.label-count-entrantes{
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #0077FF;
+}
