@@ -179,6 +179,7 @@ export interface Usuario {
     id_app_usuario?:  number,
     usuario:         string;
     password:        string;
+    password2:       string;
     celular:         string;
     nombre:          string;
     activo:          boolean;

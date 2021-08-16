@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
+import Swal from 'sweetalert2';
 import { Usuario, Paginas } from '../../interfaces/clientes.interface';
 import { AppusuariosService } from '../../reconocimiento/services/appusuarios.service';
 
@@ -16,12 +17,10 @@ export class ModalMantenimientoUsuariosAppComponent implements OnInit {
     id_app_usuario:  0,
     usuario:         '',
     password:        '',
+    password2:       '',
     celular:         '',
     nombre:          '',
     activo:          true,
-    token:           '',
-    fecha_creacion:  new Date(),
-    fecha_caduca:    new Date(),
     codigoempleado:  '',
     es_supervisor:   true
   };
@@ -46,8 +45,20 @@ export class ModalMantenimientoUsuariosAppComponent implements OnInit {
   }
 
   guardarUsuario(){
-     this.onNuevoUsuario.emit(this.usuario);
-     console.log(this.usuario);
+    this.confirmarPassword()
+    this.onNuevoUsuario.emit(this.usuario);
+    console.log(this.usuario);
+  }
+
+
+  confirmarPassword(){
+  if(this.usuario.password ==  this.usuario.password2){
+    console.log('Coincidencia Encontrada');
+  }
+    else{
+      console.log('Coincidencia no encontrada, repita su contraseña')
+    }
+  
   }
 
   async getPaginas(){

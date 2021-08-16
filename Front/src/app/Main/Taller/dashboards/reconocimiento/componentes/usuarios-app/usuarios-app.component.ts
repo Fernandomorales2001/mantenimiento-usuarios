@@ -46,10 +46,6 @@ export class UsuariosAppComponent implements OnInit {
     this.controlUsuario.abrirModal();
   }
 
-  abrirModalEditarUsuario(){
-    this.controlUsuario.abrirModal();
-  }
-
   async createUsuario(nuevoUsuario: Usuario){
     let resp: any;
     let body = {

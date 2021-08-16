@@ -45,9 +45,7 @@ data-backdrop="static" aria-hidden="true">
                 <div class="col-6">
                     <div class="form-group">
                         <small for="inputPassword2">REPETIR CONTRASEÑA: </small>
-                        <input type="password" class="form-control text-uppercase" placeholder="REPITA SU CONTRASEÑA">
-                        <ng-template #inserteContraseña>Coincidencia no encontrada</ng-template>
-                        <!-- *ngIf="{{usuarios.password == true; else inserteContraseña}}"  -->
+                        <input type="password" class="form-control text-uppercase" [(ngModel)]="usuario.password2" placeholder="REPITA SU CONTRASEÑA">
                     </div>
                 </div>
               </div>

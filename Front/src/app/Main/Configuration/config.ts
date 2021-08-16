@@ -8,5 +8,5 @@ export const Header = {
   // 'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT'
 }
 
-// export const WEB_SERVICE = "http://192.168.1.244:3200/";
-  export const WEB_SERVICE = "http://localhost:3200/";
+ export const WEB_SERVICE = "http://192.168.1.244:3200/";
+//  export const WEB_SERVICE = "http://localhost:3200/";
