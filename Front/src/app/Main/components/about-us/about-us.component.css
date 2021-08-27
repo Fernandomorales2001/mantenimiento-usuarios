@@ -1,0 +1,13 @@
+.titulo {
+    text-align: center;
+}
+
+.paw {
+    width: 400px;
+    margin-left: 200px;
+}
+
+.div-conta{
+    display: flex;
+}
+

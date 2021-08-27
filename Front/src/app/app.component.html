@@ -1,31 +1,5 @@
-<div class="page-wrapper" [ngClass]="{'toggled' : getSideBarState(),'fondo': es_home }"  >
-  <app-sidebar></app-sidebar>
-  <main class="page-content ">
-    <app-nav-bar></app-nav-bar>
-    <div class="margin-bar   " *ngIf="!es_login"></div>
-    <router-outlet></router-outlet>
-    <div class="overlay" (click)="toggleSidebar()" [ngClass]="{'show' : !getSideBarState()}"></div>
-  </main>
+<app-navigation></app-navigation>
+
+<div class="container p-4">
+  <router-outlet></router-outlet>
 </div>
-
-
-
-<!-- <main class="page-content">
-  <app-nav-bar></app-nav-bar>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="form-group col-md-12">
-                <h2> <img src="assets/img/angular.png" alt="angular logo" width="70px"> Angular Sidebar Template</h2>
-                <hr>
-                <p>This is a responsive sidebar template with dropdown menu built with angular 7 and bootstrap 4.</p>
-                <hr>
-                <a href="#" class="btn btn-outline-secondary mr-1 mb-1" (click)="toggleSidebar()">Toggle Sidebar</a>
-                <a href="#" class="btn btn-secondary" (click)="toggleBackgroundImage()">Toggle Background Image</a>
-            </div>
-        </div>
-        <div class="attribution text-center badge badge-warning">
-            Created by <strong>Azouaoui Mohamed</strong>
-          </div>
-    </div>
-    <div class="overlay" (click)="toggleSidebar()" [ngClass]="{'show' : !getSideBarState()}"></div>
-</main> -->
